@@ -18,7 +18,7 @@
 
         <maven-plugin-compiler.version>3.14.0</maven-plugin-compiler.version>
         <maven-plugin-surefire.version>3.5.3</maven-plugin-surefire.version>
-        <maven-plugin-enforcer.version>3.5.0</maven-plugin-enforcer.version>
+        <maven-plugin-enforcer.version>3.6.1</maven-plugin-enforcer.version>
         <maven-plugin-spotless.version>2.44.5</maven-plugin-spotless.version>
         <maven-plugin-versions.version>2.18.0</maven-plugin-versions.version>
         <extra-enforcer-rules.version>1.8.0</extra-enforcer-rules.version>
