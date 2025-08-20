@@ -20,7 +20,7 @@
 ./mvnw clean package
 
 # Run integration tests
-./mvnw verify
+./mvnw clean verify
 
 # Check for dependency updates
 ./mvnw versions:display-property-updates
@@ -30,6 +30,8 @@
 # Generate project reports
 ./mvnw site
 jwebserver -p 8005 -d "$(pwd)/target/site/"
+
+./mvnw clean verify -Pjacoco
 ```
 
 
