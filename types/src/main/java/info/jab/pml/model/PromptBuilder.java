@@ -17,8 +17,6 @@ public final class PromptBuilder {
     private Examples examples;
     private OutputFormat outputFormat;
     private Safeguards safeguards;
-    private String id;
-    private String version;
 
     private PromptBuilder() {}
 
@@ -76,28 +74,15 @@ public final class PromptBuilder {
         return this;
     }
 
-    public PromptBuilder withId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    public PromptBuilder withVersion(String version) {
-        this.version = version;
-        return this;
-    }
-
     /**
      * Build a {@link Prompt} instance. Validates schema-required fields.
      *
-     * <p>Required by schema: id (attribute), role (element), goal (element).</p>
+     * <p>Required by schema: role (element), goal (element).</p>
      *
      * @return a new {@link Prompt}
      * @throws IllegalStateException if any required field is missing
      */
     public Prompt build() {
-        if (Objects.isNull(id) || id.isBlank()) {
-            throw new IllegalStateException("Required attribute 'id' is missing or empty");
-        }
         if (Objects.isNull(role) || role.isBlank()) {
             throw new IllegalStateException("Required element 'role' is missing or empty");
         }
@@ -116,8 +101,6 @@ public final class PromptBuilder {
         prompt.setExamples(examples);
         prompt.setOutputFormat(outputFormat);
         prompt.setSafeguards(safeguards);
-        prompt.setId(id);
-        prompt.setVersion(version);
         return prompt;
     }
 }

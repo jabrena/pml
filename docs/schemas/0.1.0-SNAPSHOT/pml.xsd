@@ -17,8 +17,6 @@
                 <xs:element ref="output-format" minOccurs="0"/>
                 <xs:element ref="safeguards" minOccurs="0"/>
             </xs:sequence>
-            <xs:attribute name="id" type="xs:string" use="required"/>
-            <xs:attribute name="version" type="xs:string" use="optional"/>
         </xs:complexType>
     </xs:element>
 
@@ -28,7 +26,6 @@
             <xs:sequence>
                 <xs:element ref="author" minOccurs="0"/>
                 <xs:element ref="version" minOccurs="0"/>
-                <xs:element ref="tags" minOccurs="0"/>
                 <xs:element ref="title"/>
             </xs:sequence>
         </xs:complexType>
@@ -36,16 +33,6 @@
 
     <xs:element name="author" type="xs:string"/>
     <xs:element name="version" type="xs:string"/>
-
-    <xs:element name="tags">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="tag" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <xs:element name="tag" type="xs:string"/>
     <xs:element name="title" type="xs:string"/>
 
     <!-- Context information -->
