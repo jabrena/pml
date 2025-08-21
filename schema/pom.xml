@@ -31,7 +31,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../docs/schema/pml/${project.version}/</outputDirectory>
+                            <outputDirectory>../docs/schemas/${project.version}/</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${project.basedir}/src/main/resources</directory>
