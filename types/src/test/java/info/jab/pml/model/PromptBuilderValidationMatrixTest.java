@@ -7,22 +7,18 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class PromptBuilderValidationMatrixTest {
 
-    @ParameterizedTest(name = "id=''{0}'' role=''{1}'' should fail on {2}")
+    @ParameterizedTest(name = "role=''{0}'' should fail on {1}")
     @CsvSource({
-        ", assistant, id",
-        "'', assistant, id",
-        "'  ', assistant, id",
-        "prompt-1, , role",
-        "prompt-1, '', role",
-        "prompt-1, '  ', role"
+        ", role",
+        "'', role",
+        "'  ', role"
     })
-    void invalidCombinations(String id, String role, String expectedFieldInMessage) {
+    void invalidRoleCombinations(String role, String expectedFieldInMessage) {
         Goal goal = new Goal();
         goal.getContent().add("Deliver feature");
 
         assertThatThrownBy(() ->
             PromptBuilder.create()
-                .withId(id)
                 .withRole(role)
                 .withGoal(goal)
                 .build()

@@ -6,8 +6,10 @@ The home of XML Schema for Prompt Markup Language and related Java Types
 import info.jab.pml.model.*;
 
 Prompt prompt = PromptBuilder.create()
-    .withId("prompt-001")
-    .withRole("You are a Senior software engineer with extensive experience in Java software development")
+    .withRole("""
+        You are a Senior software engineer
+        with extensive experience in Java software development
+        """)
     .withGoal("Help the Java developer ecosystem to make life easier")
     .build();
 ```

@@ -19,7 +19,6 @@ class PromptBuilderAllFieldsTest {
         Safeguards safeguards = new Safeguards();
 
         Prompt prompt = PromptBuilder.create()
-            .withId("p-123")
             .withRole("assistant")
             .withGoal(goal)
             .withMetadata(metadata)
@@ -30,15 +29,12 @@ class PromptBuilderAllFieldsTest {
             .withExamples(examples)
             .withOutputFormat(outputFormat)
             .withSafeguards(safeguards)
-            .withVersion("1.0")
             .build();
 
-        assertThat(prompt.getId()).isEqualTo("p-123");
         assertThat(prompt.getRole()).isEqualTo("assistant");
         assertThat(prompt.getGoal()).isSameAs(goal);
         assertThat(prompt.getTone()).isEqualTo("formal");
         assertThat(prompt.getContext()).isEqualTo("context");
-        assertThat(prompt.getVersion()).isEqualTo("1.0");
 
         assertThat(prompt.getMetadata()).isSameAs(metadata);
         assertThat(prompt.getConstraints()).isSameAs(constraints);
