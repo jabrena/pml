@@ -33,7 +33,7 @@
         <jakarta-activation-api.version>2.1.3</jakarta-activation-api.version>
         <maven-plugin-jacoco.version>0.8.13</maven-plugin-jacoco.version>
         <junit.version>5.13.4</junit.version>
-        <assertj.version>3.26.3</assertj.version>
+        <assertj.version>3.27.4</assertj.version>
 
         <coverage.level>20</coverage.level>
     </properties>
