@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xi="http://www.w3.org/2001/XInclude"
+        id="112-java-maven-documentation" version="1.0">
+
+    <metadata>
+        <author>Juan Antonio Breña Moral</author>
+        <version>0.10.0-SNAPSHOT</version>
+        <tags>
+            <tag>maven</tag>
+            <tag>java</tag>
+            <tag>documentation</tag>
+        </tags>
+        <title>Create README-DEV.md with information about how to use the Maven project</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>
+        When creating a README-DEV.md file for a Maven project, include ONLY the following sections with the specified Maven goals. Do NOT add any additional sections, explanations, or content beyond what is explicitly listed below.
+
+        Create a markdown file named `README-DEV.md` with the following content:
+
+        ```markdown
+        <xi:include href="fragments/java-maven-documentation-template.md" parse="text"/>
+        ```
+    </goal>
+
+    <constraints>
+        <constraints-description>**MANDATORY REQUIREMENT**: Follow the embedded template EXACTLY - do not add, remove, or modify any steps, sections, or cursor rules that are not explicitly shown in the template. ### What NOT to Include:</constraints-description>
+        <constraint-list>
+            <constraint>**DO NOT** create additional steps beyond what's shown in the template</constraint>
+            <constraint>**DO NOT** expand or elaborate on sections beyond what the template shows</constraint>
+            <constraint>**ONLY** use the exact wording and structure from the template</constraint>
+            <constraint>If a cursor rule exists in the workspace but is not in the template, **DO NOT** include it</constraint>
+        </constraint-list>
+    </constraints>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>Generate the complete markdown file following the embedded template exactly</output-format-item>
+            <output-format-item>Use proper markdown formatting with headers, code blocks, tables, and checklists</output-format-item>
+            <output-format-item>**VERIFY**: Final output contains ONLY what appears in the embedded template</output-format-item>
+        </output-format-list>
+    </output-format>
+</prompt>
