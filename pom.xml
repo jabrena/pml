@@ -17,7 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <maven-plugin-compiler.version>3.14.0</maven-plugin-compiler.version>
+        <maven-plugin-compiler.version>3.14.1</maven-plugin-compiler.version>
         <maven-plugin-surefire.version>3.5.3</maven-plugin-surefire.version>
         <maven-plugin-enforcer.version>3.6.1</maven-plugin-enforcer.version>
         <maven-plugin-spotless.version>2.46.1</maven-plugin-spotless.version>
