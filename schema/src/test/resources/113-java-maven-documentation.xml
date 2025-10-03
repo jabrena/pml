@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<prompt xmlns:xi="http://www.w3.org/2001/XInclude"
-        id="112-java-maven-documentation" version="1.0">
+<prompt xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <metadata>
         <author>Juan Antonio Breña Moral</author>
-        <version>0.10.0-SNAPSHOT</version>
-        <tags>
-            <tag>maven</tag>
-            <tag>java</tag>
-            <tag>documentation</tag>
-        </tags>
+        <version>0.12.0-SNAPSHOT</version>
         <title>Create README-DEV.md with information about how to use the Maven project</title>
     </metadata>
 
