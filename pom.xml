@@ -318,7 +318,7 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>schemas/${project.version}/</outputDirectory>
+                                    <outputDirectory>docs/schemas/${project.version}/</outputDirectory>
                                     <resources>
                                         <resource>
                                             <directory>schema/src/main/resources</directory>
