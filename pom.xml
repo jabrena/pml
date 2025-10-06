@@ -35,7 +35,7 @@
         <maven-plugin-jacoco.version>0.8.13</maven-plugin-jacoco.version>
         <maven-plugin-dependency.version>3.8.1</maven-plugin-dependency.version>
         <junit.version>6.0.0</junit.version>
-        <assertj.version>3.27.4</assertj.version>
+        <assertj.version>3.27.6</assertj.version>
 
         <coverage.level>20</coverage.level>
     </properties>
