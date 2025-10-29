@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>Solve the Homework number: <![CDATA[<input>INPUT</input>]]>
+
+        Get access to the page
+        https://www.cis.upenn.edu/~cis1940/spring13/lectures.html
+
+        to review the different Homeworks and check in the repository in
+        sandbox/src/main/java/info/jab/cis194/
+
+        a new package named homeworkX with a range from 1 to 12
+        where X represent the week provided in the INPUT.
+
+        if in the repository doesn't exist a homeworkX, X represent the week, in that case take the minimum one which is not solved in the repository.
+        In other case, continue with the next Homework if exist a previous one.
+        If you are in Homework 9, jump to Homework 10 or higher.
+
+        Every homework has associated a Lecture, a Homework document and maybe some associated documents.
+
+        Example:
+
+        In the week 1,
+        exist a Lecture: https://www.cis.upenn.edu/~cis1940/spring13/lectures/01-intro.html
+        and a Homework: https://www.cis.upenn.edu/~cis1940/spring13/hw/01-intro.pdf
+
+        Process both documents, the first one to take the context about the ideas behind and later implement the Homework associated.
+
+        In the first Homework, the document in PDF format describe a set of Exercise
+        to be implemented in Java 25.
+
+        Update the VM to Java 25 using the command `sudo apt install -y openjdk-25-jdk`
+
+        Understand the problem do a good analysis to implement the solution.
+        Apply TDD so, create in tests the new package:
+
+        sandbox/src/test/java/info/jab/cis194/homework1
+
+        and Exercise by Exercise create the Test first:
+
+        sandbox/src/test/java/info/jab/cis194/homework1/Exercice1Test.java
+
+        Once you have the initial test, execute:
+
+        ./mvnw clean verify
+
+        and it will fail but this is something normal because you don't have the implementation.
+
+        Implement the solution in:
+
+        sandbox/src/main/java/info/jab/cis194/homework1/Exercice1.java
+
+        and execute:
+
+        ./mvnw clean verify
+
+        This time it should pass the test, in order case, review the implementation
+
+        When one Exercise passes the tests, commit and Push to the PR and continue.
+
+        Follow this steps for all Exercises included in the Homework
+    </goal>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify the changes only with `./mvnw clean verify`</safeguards-item>
+            <safeguards-item>In other case, you could consider that the goal is achieved and you can commit your java sources and create the PR.</safeguards-item>
+            <safeguards-item>Not commit any .class file</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

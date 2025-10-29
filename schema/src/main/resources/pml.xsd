@@ -7,18 +7,23 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="metadata" minOccurs="0"/>
-                <xs:element ref="role"/>
+                <xs:element ref="title" minOccurs="0"/>
+                <xs:element ref="role" minOccurs="0"/>
                 <xs:element ref="tone" minOccurs="0"/>
                 <xs:element ref="context" minOccurs="0"/>
                 <xs:element ref="goal"/>
                 <xs:element ref="constraints" minOccurs="0"/>
-                <xs:element ref="instructions" minOccurs="0"/>
+                <xs:element ref="instructions" minOccurs="0"/><!-- TODO: To be deprecated in the next releases (29/10/2025) -->
+                <xs:element ref="steps" minOccurs="0" />
                 <xs:element ref="examples" minOccurs="0"/>
                 <xs:element ref="output-format" minOccurs="0"/>
                 <xs:element ref="safeguards" minOccurs="0"/>
+                <xs:element ref="acceptance-criteria" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:element name="title" type="xs:string"/>
 
     <!-- Metadata section (equivalent to frontmatter) -->
     <xs:element name="metadata">
@@ -26,14 +31,13 @@
             <xs:sequence>
                 <xs:element ref="author" minOccurs="0"/>
                 <xs:element ref="version" minOccurs="0"/>
-                <xs:element ref="title"/>
+                <xs:element ref="title" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="author" type="xs:string"/>
     <xs:element name="version" type="xs:string"/>
-    <xs:element name="title" type="xs:string"/>
 
     <!-- Context information -->
     <xs:element name="context" type="xs:string"/>
@@ -267,5 +271,27 @@
     </xs:element>
 
     <xs:element name="safeguards-item" type="xs:string"/>
+
+    <!-- Acceptance criteria section -->
+    <xs:element name="acceptance-criteria">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="acceptance-criteria-description" minOccurs="0"/>
+                <xs:element ref="acceptance-criteria-list"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="acceptance-criteria-description" type="xs:string"/>
+
+    <xs:element name="acceptance-criteria-list">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="acceptance-criteria-item" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="acceptance-criteria-item" type="xs:string"/>
 
 </xs:schema>

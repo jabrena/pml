@@ -13,6 +13,6 @@ jobs:
       - uses: actions/setup-java@v5
         with:
           distribution: 'graalvm' # See 'Supported distributions' for available options
-          java-version: '24'
+          java-version: '25'
       - name: Maven build
-        run: ./mvnw --batch-mode --no-transfer-progress verify --file pom.xml
+        run: ./mvnw --batch-mode --no-transfer-progress test --file pom.xml

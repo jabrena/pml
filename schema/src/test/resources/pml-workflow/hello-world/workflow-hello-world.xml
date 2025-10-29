@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pml-workflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:noNamespaceSchemaLocation="../../../../main/resources/pml-workflow.xsd">
+    <sequence model="default" repository="https://github.com/jabrena/wjax25-demos">
+        <prompt src="prompt1.xml" type="pml" />
+        <prompt src="prompt2.md" type="md" />
+    </sequence>
+</pml-workflow>

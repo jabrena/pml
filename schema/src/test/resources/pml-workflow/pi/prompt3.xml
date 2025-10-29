@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Refactor the tests</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>Refactor current tests in this PR with the following System Prompt
+        https://github.com/jabrena/cursor-rules-java/blob/main/.cursor/rules/131-java-unit-testing.md
+
+        If you have doubts, review the git logs to see what files were sent a PR.
+
+        In the refactoring:
+
+        - Use AssertJ asserts
+        - Structure any test with Given When Then
+        - Dont miss Display none and good test method naming
+    </goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>not explain anything</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify the changes only with `./mvnw clean verify -pl sandbox`</safeguards-item>
+            <safeguards-item>if the verification is successful, then the goal is achieved</safeguards-item>
+            <safeguards-item>and commit java sources only and push the changes to the branch to create the PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

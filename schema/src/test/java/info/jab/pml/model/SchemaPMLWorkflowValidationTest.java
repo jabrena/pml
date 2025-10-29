@@ -3,8 +3,6 @@ package info.jab.pml.model;
 import static org.assertj.core.api.Assertions.assertThatCode;
 
 import java.io.InputStream;
-import java.net.URI;
-import java.util.Objects;
 import javax.xml.XMLConstants;
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -12,29 +10,35 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.MethodSource;
 
-class RemoteSchemaValidationTest {
-
-    private static final String REMOTE_XSD = "https://jabrena.github.io/pml/schemas/0.1.0-SNAPSHOT/pml.xsd";
+/**
+ * This class tests the validation of XML workflow files against the local PML workflow schema.
+ *
+ */
+class SchemaPMLWorkflowValidationTest {
 
     @ParameterizedTest
-    @ValueSource(strings = {"/pml-example-remote.xml", "/113-java-maven-documentation.xml"})
-    void xmlFilesAreValidAgainstRemoteSchema(String resourcePath) throws Exception {
+    @MethodSource("getWorkflowTestResourcePaths")
+    void workflowXmlFilesAreValidAgainstWorkflowSchema(String resourcePath) throws Exception {
         try (InputStream xml = getClass().getResourceAsStream(resourcePath)) {
-            if (Objects.isNull(xml)) {
-                throw new IllegalStateException("Test resource not found: " + resourcePath);
-            }
-
+            //Given
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_DTD, "all");
-            schemaFactory.setProperty(XMLConstants.ACCESS_EXTERNAL_SCHEMA, "all");
-
-            Schema schema = schemaFactory.newSchema(URI.create(REMOTE_XSD).toURL());
+            Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream("/pml-workflow.xsd")));
             Validator validator = schema.newValidator();
-
             Source source = new StreamSource(xml);
+
+            //When
+            //Then
             assertThatCode(() -> validator.validate(source)).doesNotThrowAnyException();
         }
+    }
+
+    private static String[] getWorkflowTestResourcePaths() {
+        return new String[] {
+            "/pml-workflow/hello-world/workflow-hello-world.xml",
+            "/pml-workflow/cis194/workflow-cis194.xml",
+            "/pml-workflow/pi/workflow-pi.xml"
+        };
     }
 }

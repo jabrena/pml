@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<prompt>
-    <role>AI assistant specialized in PML validation</role>
-    <goal>Validate instance documents against the PML schema.</goal>
-</prompt>

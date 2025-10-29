@@ -20,7 +20,8 @@
 ./mvnw clean package
 
 # Run integration tests
-./mvnw clean verify
+./mvnw clean test
+
 
 # Check for dependency updates
 ./mvnw versions:display-property-updates
@@ -28,6 +29,9 @@
 ./mvnw versions:display-plugin-updates
 
 # Generate project reports
+./mvnw clean surefire-report:report
+jwebserver -p 8025 -d "$(pwd)/schema/target/reports/"
+
 ./mvnw site
 jwebserver -p 8005 -d "$(pwd)/target/site/"
 

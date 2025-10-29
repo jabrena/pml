@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Pi Calculation in Cursor Backgroun Agent</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>Calculate the value of Pi different approaches:
+
+1. Machin-like Formulas
+2. Chudnovsky Algorithm
+
+To implement the different alternatives,
+follow TDD and create a unique test class which will test all implementations using parameterized test.
+In the assert test agains the following cases:
+
+Assert against EXPECTED_PI_HIGH_PRECISION if the implementation supports it
+
+```java
+private static final String EXPECTED_PI_HIGH_PRECISION = "3.14159265358979323846";
+```
+
+and the test will review implementation from the interface:
+
+```java
+package info.jab.pi;
+
+import java.math.BigDecimal;
+
+/**
+ * Interface for Pi calculation algorithms that support high precision calculations.
+ */
+public interface HighPrecisionPiCalculator {
+
+    /**
+     * Calculates Pi with high precision using the implemented algorithm.
+     *
+     * @param precision Number of decimal places to calculate
+     * @return Pi value as a String with specified precision
+     */
+    BigDecimal calculatePiHighPrecision(int precision);
+}
+```
+
+Assert against the exact value of EXPECTED_PI_HIGH_PRECISION only.
+
+```java
+@ParameterizedTest
+@MethodSource("piCalculatorProvider")
+@DisplayName("Should calculate Pi with high precision")
+void testCalculatePiHighPrecision(HighPrecisionPiCalculator calculator) {
+    // Test with 20 decimal places precision
+    int precision = 20;
+
+    BigDecimal calculatedPi = calculator.calculatePiHighPrecision(precision);
+
+    // Convert expected value to BigDecimal with same scale for comparison
+    BigDecimal expectedPi = new BigDecimal(EXPECTED_PI_HIGH_PRECISION)
+        .setScale(precision, RoundingMode.HALF_UP);
+
+    assertEquals(expectedPi, calculatedPi,
+        String.format("Pi calculation should match expected value for algorithm: %s",
+            calculator.getClass().getSimpleName()));
+}
+```
+
+put the test class in the package info.jab.pi
+in the path sandbox/src/test/java/info/jab/pi
+
+After the test implemenation, build the project with `./mvnw clean package -pl sandbox`
+that test will fail because the implementation is not yet done.
+commit the test java sources only and push the changes to the branch to create the PR
+to reflect the TDD red phase.
+
+
+After this step, implement the different approaches and after the implementation,
+review everything with the command: `./mvnw clean verify -pl sandbox`
+in the package info.jab.pi in the path sandbox/src/main/java/info/jab/pi
+
+    </goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>not explain anything</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>not compile individually the solution, use maven</safeguards-item>
+            <safeguards-item>verify the changes with `./mvnw clean package -pl sandbox`</safeguards-item>
+            <safeguards-item>if the verification is successful, then the goal is achieved</safeguards-item>
+            <safeguards-item>and commit java sources (*.java) only and push the changes to the branch to create the PR</safeguards-item>
+            <safeguards-item>not commit any .class file</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+
+</prompt>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>
+        Get access to the page
+        https://www.cis.upenn.edu/~cis1940/spring13/lectures.html
+
+        to review the different Homeworks available and generate a JSON format with the following information
+        which represents the numbers of the Homeworks:
+
+        ```json
+        {
+            "List_Integer": [1, 2, 3, 4, 5, 6, 7, 8, 10, 11, 12]
+        }
+        ```
+
+        Important: The JSON key MUST be "List_Integer" (exactly as shown).
+        Only return the JSON format, nothing else and only return the first 4 Homeworks numbers.
+    </goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>Replace in the following xml fragment the RESULT with the actual List of Homeworks in JSON format in one single line
+                <![CDATA[
+                <result>RESULT</result>
+                ]]>
+            </output-format-item>
+            <output-format-item>Only return the JSON format, nothing else and only return the first 4 Homeworks numbers.</output-format-item>
+            <output-format-item>Print the content of node result</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>Not commit anything, just return the data</safeguards-item>
+            <safeguards-item>You could consider that the goal is achieved if you are able to print the list of Homeworks</safeguards-item>
+            <safeguards-item>not create any PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>
