@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Java 25 Installation in Cursor Backgroun Agent</title>
+    </metadata>
+
+    <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
+    <goal>Update the VM to Java 25 using the command `sudo apt install -y openjdk-25-jdk`</goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>not invest time in planning</output-format-item>
+            <output-format-item>only install the component with the given command</output-format-item>
+            <output-format-item>not explain anything</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify that java is configured for java 25 executing `java -version`</safeguards-item>
+            <safeguards-item>if the java installation and the verification is successful, then the goal is achieved</safeguards-item>
+            <safeguards-item>not create any PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

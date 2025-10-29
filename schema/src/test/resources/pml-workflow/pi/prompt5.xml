@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Add a JMH Benchmark</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>Add JHM plugin support only from the rule @112-java-maven-plugins without any question
+        https://github.com/jabrena/cursor-rules-java/blob/main/.cursor/rules/112-java-maven-plugins.md
+
+        and add a JMH Benchmark in the package info.jab.pi to know what is the best implementation
+        to calculate Pi.
+
+        ```
+        sandbox/
+        ├── pom.xml (updated with JMH profile)
+        ├── src/jmh/java/info/jab/pi/
+        │   └── PiCalculationBenchmark.java
+        ├── src/test/resources/benchmark/
+        │   └── jmh-result.json
+        └── target/jmh-benchmarks.jar (created during build)
+        ```
+
+        Create a JHM benchmark that that invest around 30 seconds in execution.
+
+        put the JSON output in the file sandbox/src/test/resources/benchmark/jmh-result.json
+
+        execute the benchmark with the commands:
+
+        ```
+        ./mvnw clean package -Pjmh -pl sandbox
+        java -Djmh.ignoreLock=true -jar sandbox/target/jmh-benchmarks.jar info.jab.pi.PiCalculationBenchmark -wi 1 -w 2s -i 3 -r 2s -f 1 -rf json -rff sandbox/src/test/resources/benchmark/jmh-result.json
+        ```
+
+        Using the JSON data from the JMH benchmark,
+        can you explain the JMH results and advise about the best implementation for the folowing criteria:
+
+        - High precision calculations (≥20 digits)
+        - Maximum accuracy is required
+        - Performance at high precision is critical
+
+        After the analysis, remove the Slow implementation, update Tests and update JMH benchmark.
+    </goal>
+
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>Replace in the following xml fragment the RESULT
+                with the winning implimentation of the JMH benchmark.
+                <![CDATA[
+                <result>RESULT</result>
+                ]]>
+            </output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify the changes only with `./mvnw clean verify -pl sandbox`</safeguards-item>
+            <safeguards-item>the goal will be achieved if: Build is successful, the JMH benchmark is created and the JSON output is in the file sandbox/src/test/resources/benchmark/jmh-result.json</safeguards-item>
+            <safeguards-item>commit jmh java sources, pom.xml updated, JMH benchmark in json format only and push the changes to the branch to create the PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

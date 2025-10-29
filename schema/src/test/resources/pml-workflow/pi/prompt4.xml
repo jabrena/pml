@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Refactor the implementation</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>Refactor current implementation with the following System Prompt
+        https://github.com/jabrena/cursor-rules-java/blob/main/.cursor/rules/142-java-functional-programming.md
+
+        After applying the refactoring in the PR files review the results and review if one of the codes includes Collectors.toUnmodifiableList() and replace with .toList() method introduced in Java 16.
+        If one solution requires Recursive, try to apply Trampoline approach.
+
+        If you have doubts about what files to review, review the git logs to see what files were sent a PR.
+
+        Review that all Java sources use imports with single imports
+    </goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>explain in brief way the refactoring steps and finally the concepts applied</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify the changes only with `./mvnw clean verify -pl sandbox`</safeguards-item>
+            <safeguards-item>if the verification is successful, then the goal is achieved</safeguards-item>
+            <safeguards-item>and commit java sources only and push the changes to the branch to create the PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

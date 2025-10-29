@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.1.0/pml.xsd">
+
+    <metadata>
+        <title>Developer a HelloWorld Java Class example</title>
+    </metadata>
+
+    <role>You are a Senior software engineer with extensive experience in Java software development</role>
+
+    <goal>
+In the Maven module `sandbox`
+in the package info.jab.examples
+Develop a classic Java class HelloWorld.java program
+that print "Hello World" in the console only
+and not create any test class for this example</goal>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>not invest time in planning</output-format-item>
+            <output-format-item>not explain anything</output-format-item>
+            <output-format-item>Replace in the following xml fragment the RESULT with the actual
+                result of the execution of the HelloWorld.java class
+                <![CDATA[
+                <result>RESULT</result>
+                ]]>
+            </output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>not compile individually the solution, use maven</safeguards-item>
+            <safeguards-item>verify the changes with `./mvnw clean compile -pl sandbox`</safeguards-item>
+            <safeguards-item>and not touch the build system files like pom.xml</safeguards-item>
+            <safeguards-item>if the verification is successful, then the goal is achieved</safeguards-item>
+            <safeguards-item>and commit java sources only and push the changes to the branch to create the PR</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+</prompt>

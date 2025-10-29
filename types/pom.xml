@@ -7,23 +7,17 @@
     <parent>
         <groupId>info.jab.pml</groupId>
         <artifactId>prompt-markup-language</artifactId>
-        <version>0.1.0</version>
+        <version>0.2.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>info.jab.pml</groupId>
     <artifactId>types</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>types</name>
 
     <dependencies>
-
-        <dependency>
-            <groupId>info.jab.pml</groupId>
-            <artifactId>schema</artifactId>
-            <version>${project.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.jspecify</groupId>
@@ -77,26 +71,25 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <version>${maven-plugin-dependency.version}</version>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven-plugin-resources.version}</version>
                 <executions>
                     <execution>
-                        <id>unpack-schema-xsd</id>
+                        <id>copy-schema-xsd</id>
                         <phase>generate-sources</phase>
                         <goals>
-                            <goal>unpack</goal>
+                            <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>info.jab.pml</groupId>
-                                    <artifactId>schema</artifactId>
-                                    <version>${project.version}</version>
-                                    <type>jar</type>
-                                    <outputDirectory>${project.build.directory}/schemas</outputDirectory>
-                                    <includes>**/*.xsd</includes>
-                                </artifactItem>
-                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/schemas</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>../schema/src/main/resources</directory>
+                                    <includes>
+                                        <include>**/*.xsd</include>
+                                    </includes>
+                                </resource>
+                            </resources>
                         </configuration>
                     </execution>
                 </executions>

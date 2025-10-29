@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+    <title>Install Java 25 in the Cursor Background Agent</title>
+
+    <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
+
+    <goal>Update the VM with GraalVM 25 using the set of commands:
+
+    <![CDATA[
+    ```bash
+    # 1. Install required dependencies
+    sudo apt update
+    sudo apt install -y curl wget gnupg
+
+    # 2. Add the GraalVM GPG key
+    wget -O- https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-25.0.0/KEYS | sudo gpg --dearmor -o /usr/share/keyrings/graalvm-archive-keyring.gpg
+
+    # 3. Download and extract GraalVM manually (recommended approach)
+    wget https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-25.0.0/graalvm-community-jdk-25.0.0_linux-x64_bin.tar.gz
+
+    # 4. Extract to /opt
+    sudo tar -xzf graalvm-community-jdk-25.0.0_linux-x64_bin.tar.gz -C /opt/
+
+    # 5. Set up environment variables
+    echo 'export GRAALVM_HOME=/opt/graalvm-community-openjdk-25.0.0' >> ~/.bashrc
+    echo 'export PATH=$GRAALVM_HOME/bin:$PATH' >> ~/.bashrc
+    echo 'export JAVA_HOME=$GRAALVM_HOME' >> ~/.bashrc
+
+    # 6. Reload your shell configuration
+    source ~/.bashrc
+
+    # 7. Verify installation
+    java -version
+    ```
+    ]]>
+    </goal>
+
+    <constraints>
+        <constraint-list>
+            <constraint>Do not invest time in planning</constraint>
+            <constraint>Only install the component with the given command</constraint>
+        </constraint-list>
+    </constraints>
+
+    <output-format>
+        <output-format-list>
+            <output-format-item>Do not explain anything</output-format-item>
+        </output-format-list>
+    </output-format>
+
+    <safeguards>
+        <safeguards-list>
+            <safeguards-item>verify that java is configured for java 25 executing `java -version`</safeguards-item>
+            <safeguards-item>Clean up the installation files (.gz and .tar.gz)</safeguards-item>
+        </safeguards-list>
+    </safeguards>
+
+    <acceptance-criteria>
+        <acceptance-criteria-description>The goal will be achieved if the following criteria are met:</acceptance-criteria-description>
+        <acceptance-criteria-list>
+            <acceptance-criteria-item>The java version is 25</acceptance-criteria-item>
+            <acceptance-criteria-item>The java installation is successful</acceptance-criteria-item>
+            <acceptance-criteria-item>The installation files (.gz and .tar.gz) are cleaned up</acceptance-criteria-item>
+        </acceptance-criteria-list>
+    </acceptance-criteria>
+</prompt>
