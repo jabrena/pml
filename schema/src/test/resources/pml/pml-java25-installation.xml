@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt>
-    <title>Install Java 25 in the Cursor Background Agent</title>
+    <title>Install Java 25 in Cursor Cloud Agent</title>
 
     <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
 
-    <goal>Update the VM to Java 25 using the command
-        `sudo apt install -y openjdk-25-jdk`</goal>
+    <goal>Update the VM to Java 25 using the following commands:
+
+    ```bash
+    sudo apt update
+    sudo apt install -y openjdk-25-jdk
+    ```
+    </goal>
 
     <constraints>
         <constraint-list>
@@ -27,7 +32,6 @@
     </safeguards>
 
     <acceptance-criteria>
-        <acceptance-criteria-description>The goal will be achieved if the following criteria are met:</acceptance-criteria-description>
         <acceptance-criteria-list>
             <acceptance-criteria-item>The java version is 25</acceptance-criteria-item>
             <acceptance-criteria-item>The java installation is successful</acceptance-criteria-item>

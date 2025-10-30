@@ -32,7 +32,6 @@ that print "Hello World" in the console only
     </safeguards>
 
     <acceptance-criteria>
-        <acceptance-criteria-description>The goal will be achieved if the following criteria are met:</acceptance-criteria-description>
         <acceptance-criteria-list>
             <acceptance-criteria-item>The solution is compiled successfully with `./mvnw clean compile -pl sandbox`</acceptance-criteria-item>
             <acceptance-criteria-item>The solution only prints "Hello World" in the console</acceptance-criteria-item>

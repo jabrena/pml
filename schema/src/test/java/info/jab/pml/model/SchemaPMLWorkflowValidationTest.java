@@ -18,19 +18,22 @@ import org.junit.jupiter.params.provider.MethodSource;
  */
 class SchemaPMLWorkflowValidationTest {
 
-    @ParameterizedTest
+    @ParameterizedTest(name = "[{index}] Validating workflow {0}")
     @MethodSource("getWorkflowTestResourcePaths")
     void workflowXmlFilesAreValidAgainstWorkflowSchema(String resourcePath) throws Exception {
         try (InputStream xml = getClass().getResourceAsStream(resourcePath)) {
-            //Given
+            // Given
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            Schema schema = schemaFactory.newSchema(new StreamSource(getClass().getResourceAsStream("/pml-workflow.xsd")));
+            Schema schema = schemaFactory
+                    .newSchema(new StreamSource(getClass().getResourceAsStream("/pml-workflow.xsd")));
             Validator validator = schema.newValidator();
             Source source = new StreamSource(xml);
 
-            //When
-            //Then
-            assertThatCode(() -> validator.validate(source)).doesNotThrowAnyException();
+            // When
+            // Then
+            assertThatCode(() -> validator.validate(source))
+                    .as("Workflow file under test: %s", resourcePath)
+                    .doesNotThrowAnyException();
         }
     }
 
