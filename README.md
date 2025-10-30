@@ -1,6 +1,6 @@
 # Prompt Markup Language
 
-The home of XML Schemas for PML (Prompt Markup Language), PML Worflow and related Java Types
+The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and related Java Types
 
 ## XML Schemas
 
@@ -17,7 +17,7 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Worflow and relate
 </prompt>
 ```
 
-## PML Worflow
+## PML Workflow
 
 ### Sequence pattern
 
