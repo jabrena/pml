@@ -276,13 +276,10 @@
     <xs:element name="acceptance-criteria">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="acceptance-criteria-description" minOccurs="0"/>
                 <xs:element ref="acceptance-criteria-list"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
-    <xs:element name="acceptance-criteria-description" type="xs:string"/>
 
     <xs:element name="acceptance-criteria-list">
         <xs:complexType>

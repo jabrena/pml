@@ -107,7 +107,6 @@
     </safeguards>
 
     <acceptance-criteria>
-        <acceptance-criteria-description>The goal will be achieved if the following criteria are met:</acceptance-criteria-description>
         <acceptance-criteria-list>
             <acceptance-criteria-item>The test execution passes successfully with the command `./mvnw clean test -pl sandbox`</acceptance-criteria-item>
         </acceptance-criteria-list>
