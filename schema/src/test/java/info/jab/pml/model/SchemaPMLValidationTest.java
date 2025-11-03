@@ -43,6 +43,7 @@ class SchemaPMLValidationTest {
             "/pml/pml-tdd-example.xml",
             "/pml/pml-java25-installation.xml",
             "/pml/pml-java25-installation-v2.xml",
+            "/pml/pml-java25-installation-v3.xml",
             "/pml/113-java-maven-documentation.xml"
         };
     }

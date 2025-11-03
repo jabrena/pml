@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified">
+
+    <!-- Root element: pml-workflow -->
+    <xs:element name="pml-workflow">
+        <xs:complexType>
+            <xs:choice>
+                <xs:element name="sequence" type="SequenceType"/>
+                <xs:element name="parallel" type="ParallelType"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+
+    <!-- Sequence container -->
+    <xs:complexType name="SequenceType">
+        <xs:sequence>
+            <xs:element name="prompt" type="PromptType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="model" type="xs:string" use="optional"/>
+        <xs:attribute name="repository" type="xs:string" use="optional"/>
+        <xs:attribute name="timeout" type="xs:string" use="optional"/>
+        <xs:attribute name="fallback-src" type="xs:string" use="optional"/>
+        <xs:attribute name="fallback-type" type="PromptTypeEnum" use="optional"/>
+    </xs:complexType>
+
+    <!-- Parallel container -->
+    <xs:complexType name="ParallelType">
+        <xs:sequence>
+            <xs:element name="sequence" type="SequenceType" minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="src" type="xs:string" use="required"/>
+        <xs:attribute name="type" type="PromptTypeEnum" use="optional"/>
+        <xs:attribute name="bindResultType" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <!-- Prompt type enumeration -->
+    <xs:simpleType name="PromptTypeEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="pml"/>
+            <xs:enumeration value="md"/>
+            <xs:enumeration value="txt"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <!-- Prompt element -->
+    <xs:complexType name="PromptType">
+        <xs:attribute name="src" type="xs:string" use="required"/>
+        <xs:attribute name="type" type="PromptTypeEnum" use="optional"/>
+        <xs:attribute name="bindResultExp" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+</xs:schema>

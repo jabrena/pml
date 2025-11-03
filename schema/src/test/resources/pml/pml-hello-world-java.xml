@@ -5,8 +5,8 @@
     <role>You are a Senior software engineer with extensive experience in Java software development</role>
 
     <goal>
-Develop a classic Java class HelloWorld.java program
-that print "Hello World" in the console only
+        Develop a classic Java class HelloWorld.java program
+        that print "Hello World" in the console only
     </goal>
 
     <constraints>
@@ -15,6 +15,7 @@ that print "Hello World" in the console only
             <constraint>The develop the class in the package info.jab.examples</constraint>
             <constraint>Do not invest time in planning</constraint>
             <constraint>Do not create any test class</constraint>
+            <constraint>Do not touch the build file (pom.xml)</constraint>
         </constraint-list>
     </constraints>
 
@@ -27,7 +28,6 @@ that print "Hello World" in the console only
     <safeguards>
         <safeguards-list>
             <safeguards-item>Build the solution with Maven Only</safeguards-item>
-            <safeguards-item>Do not touch the build file (pom.xml)</safeguards-item>
         </safeguards-list>
     </safeguards>
 
