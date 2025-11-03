@@ -24,5 +24,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - `instructions` element in PML schema (marked for deprecation in future releases)
-
-[0.2.0]: https://github.com/jabrena/pml/compare/0.1.0...0.2.0
