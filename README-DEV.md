@@ -37,7 +37,7 @@ jwebserver -p 8005 -d "$(pwd)/target/site/"
 
 ./mvnw clean verify -Pjacoco
 
- ./mvnw clean package -Ppromote
+./mvnw clean package -Ppromote
 ```
 
 
