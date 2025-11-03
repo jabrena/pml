@@ -21,7 +21,7 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 
 **Hello World in Java:**
 
-```java
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.2.0/pml.xsd">
