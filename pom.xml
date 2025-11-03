@@ -25,7 +25,7 @@
         <extra-enforcer-rules.version>1.11.0</extra-enforcer-rules.version>
         <jspecify.version>1.0.0</jspecify.version>
         <error-prone.version>2.43.0</error-prone.version>
-        <nullaway.version>0.12.9</nullaway.version>
+        <nullaway.version>0.12.11</nullaway.version>
         <maven-plugin-resources.version>3.3.1</maven-plugin-resources.version>
         <maven-plugin-jaxb2.version>0.15.3</maven-plugin-jaxb2.version>
         <jakarta-xml-bind-api.version>4.0.4</jakarta-xml-bind-api.version>
