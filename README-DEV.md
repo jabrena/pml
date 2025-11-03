@@ -39,5 +39,3 @@ jwebserver -p 8005 -d "$(pwd)/target/site/"
 
 ./mvnw clean package -Ppromote
 ```
-
-
