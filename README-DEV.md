@@ -19,7 +19,7 @@
 # Clean and package in one command
 ./mvnw clean package
 
-# Run integration tests
+# Run unit tests
 ./mvnw clean test
 
 
