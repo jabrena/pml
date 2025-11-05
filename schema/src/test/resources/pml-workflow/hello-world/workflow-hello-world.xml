@@ -4,7 +4,7 @@
     <sequence
     model="default" repository="https://github.com/jabrena/wjax25-demos"
     timeout="5m" fallback-src="fallback-prompt.xml" fallback-type="pml">
-        <prompt src="prompt1.xml" type="pml" />
-        <prompt src="prompt2.md" type="md"/>
+        <prompt src="prompt1.xml" />
+        <prompt src="prompt2.md"/>
     </sequence>
 </pml-workflow>

@@ -24,7 +24,7 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.2.0/pml.xsd">
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0-SNAPSHOT/pml.xsd">
     <title>Develop a HelloWorld Java Class program</title>
 
     <role>You are a Senior software engineer with extensive experience in Java software development</role>
@@ -125,9 +125,9 @@ that print "Hello World" in the console only
 <?xml version="1.0" encoding="UTF-8"?>
 <pml-workflow>
     <sequence model="default" repository="https://github.com/jabrena/wjax25-demos">
-        <prompt src="prompt1.xml"   type="pml" />
-        <prompt src="prompt2.md"    type="md" />
-        <prompt src="prompt3.txt"   type="txt" />
+        <prompt src="prompt1.xml" />
+        <prompt src="prompt2.md" />
+        <prompt src="prompt3.txt" />
     </sequence>
 </pml-workflow>
 ```
@@ -137,12 +137,12 @@ that print "Hello World" in the console only
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <pml-workflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.2.0/pml-workflow.xsd">
+              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0-SNAPSHOT/pml-workflow.xsd">
     <sequence
         model="default" repository="https://github.com/jabrena/wjax25-demos"
         timeout="5m" fallback-src="fallback-prompt.xml" fallback-type="pml">
-        <prompt src="prompt1.xml" type="pml" />
-        <prompt src="prompt2.md" type="pml"/>
+        <prompt src="prompt1.xml" />
+        <prompt src="prompt2.md" />
     </sequence>
 </pml-workflow>
 ```
@@ -169,8 +169,17 @@ Prompt prompt = PromptBuilder.create()
 
 ## References
 
-- https://github.com/microsoft/poml
 - https://www.promptml.org/
 - https://www.anthropic.com/engineering/building-effective-agents
+
+## Cursor rules ecosystem
+
+- https://github.com/jabrena/101-cursor
+- https://github.com/jabrena/pml
+- https://github.com/jabrena/cursor-rules-agile
+- https://github.com/jabrena/cursor-rules-java
+- https://github.com/jabrena/cursor-rules-spring-boot
+- https://github.com/jabrena/plantuml-to-png-cli
+- https://github.com/jabrena/setup-cli
 
 Powered by [Cursor](https://www.cursor.com/) with ❤️ from [Madrid](https://www.google.com/maps/place/Community+of+Madrid,+Madrid/@40.4983324,-6.3162283,8z/data=!3m1!4b1!4m6!3m5!1s0xd41817a40e033b9:0x10340f3be4bc880!8m2!3d40.4167088!4d-3.5812692!16zL20vMGo0eGc?entry=ttu&g_ep=EgoyMDI1MDgxOC4wIKXMDSoASAFQAw%3D%3D)
