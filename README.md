@@ -29,24 +29,21 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 
     <role>You are a Senior software engineer with extensive experience in Java software development</role>
 
-    <goal>
-Develop a classic Java class HelloWorld.java program
-that print "Hello World" in the console only
-    </goal>
+    <goal>Develop a classic Java class HelloWorld.java program that print "Hello World" in the console only</goal>
 
     <constraints>
         <constraint-list>
             <constraint>The develop the class in the Maven module `sandbox`</constraint>
             <constraint>The develop the class in the package info.jab.examples</constraint>
-            <constraint>Do not invest time in planning</constraint>
-            <constraint>Do not create any test class</constraint>
-            <constraint>Do not touch the build file (pom.xml)</constraint>
+            <constraint>Don't invest time in planning</constraint>
+            <constraint>Don't create any test class</constraint>
+            <constraint>Don't touch the build file (pom.xml)</constraint>
         </constraint-list>
     </constraints>
 
     <output-format>
         <output-format-list>
-            <output-format-item>Don not explain anything</output-format-item>
+            <output-format-item>Don't explain anything</output-format-item>
         </output-format-list>
     </output-format>
 
@@ -91,14 +88,14 @@ that print "Hello World" in the console only
 
     <constraints>
         <constraint-list>
-            <constraint>Do not invest time in planning</constraint>
+            <constraint>Don`t invest time in planning</constraint>
             <constraint>Only install the component with the given command</constraint>
         </constraint-list>
     </constraints>
 
     <output-format>
         <output-format-list>
-            <output-format-item>Do not explain anything</output-format-item>
+            <output-format-item>Don't explain anything</output-format-item>
         </output-format-list>
     </output-format>
 
