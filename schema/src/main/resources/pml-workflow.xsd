@@ -21,7 +21,6 @@
         <xs:attribute name="repository" type="xs:string" use="optional"/>
         <xs:attribute name="timeout" type="xs:string" use="optional"/>
         <xs:attribute name="fallback-src" type="xs:string" use="optional"/>
-        <xs:attribute name="fallback-type" type="PromptTypeEnum" use="optional"/>
     </xs:complexType>
 
     <!-- Parallel container -->
@@ -30,18 +29,8 @@
             <xs:element name="sequence" type="SequenceType" minOccurs="1" maxOccurs="unbounded"/>
         </xs:sequence>
         <xs:attribute name="src" type="xs:string" use="required"/>
-        <xs:attribute name="type" type="PromptTypeEnum" use="optional"/>
         <xs:attribute name="bindResultType" type="xs:string" use="optional"/>
     </xs:complexType>
-
-    <!-- Prompt type enumeration -->
-    <xs:simpleType name="PromptTypeEnum">
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="pml"/>
-            <xs:enumeration value="md"/>
-            <xs:enumeration value="txt"/>
-        </xs:restriction>
-    </xs:simpleType>
 
     <!-- Prompt element -->
     <xs:complexType name="PromptType">
