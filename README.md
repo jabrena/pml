@@ -63,11 +63,9 @@ You could define the following prompt:
 </prompt>
 ```
 
-But with this anemic prompt, exist a high probability that frontier models could not implement in the same way that you have in mind.
+But with this anemic prompt, exist a high probability that frontier models could not implement in the same way that you have in mind. Lets iterate this idea to show how to use `PML`.
 
-Lets iterate this idea to show how to use `PML`.
-
-[`PML Schema`](./schema/src/main/resources/pml.xsd) define the following parts:
+A [`PML Schema`](./schema/src/main/resources/pml.xsd) defines the following parts:
 
 ```xml
 <!-- Root element for a prompt -->
