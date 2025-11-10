@@ -9,7 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Simplified PML Workflow schema by removing optional `type` attribute from `PromptType` element
+- Enhanced PML schema with mixed content support for better flexibility
+- Made `output-format-list` and `safeguards-list` elements optional in PML schema
+- Improved documentation and README with clearer examples and explanations
+
+### Removed (Many thanks for the feedback @maxandersen)
+
+- Removed optional `type` attribute from `PromptType` element in PML Workflow schema
 - Removed `fallback-type` attribute from `SequenceType` in PML Workflow schema
 - Removed `type` attribute from `ParallelType` in PML Workflow schema
 - Removed `PromptTypeEnum` type definition from PML Workflow schema
