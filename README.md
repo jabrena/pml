@@ -2,13 +2,57 @@
 
 The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and related Java Types
 
-## XML Schemas
-
 ## PML, Prompt Markup Language
+
+### Motivation
+
+Design good `User Prompts` & `System Prompts` to `mitigate ambiguity` in frontier models' execution.
+
+PML is an `XML Schema` that helps software engineers model `User Prompts` & `System Prompts` effectively. Once the prompt is modeled in XML, it can be converted into `Markdown`, a format that models understand well. Using the PML Schema guidelines, it is easier to ensure that nothing important is missed when defining a prompt designed for production environments.
+
+### Why XML?
+
+Java software engineers use XML daily because `Maven` is based on XML and it has a schema, so it is a familiar format for everyone.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>info.jab.pml</groupId>
+    <artifactId>prompt-markup-language</artifactId>
+    <version>0.3.0</version>
+    <packaging>pom</packaging>
+
+    <name>prompt-markup-language</name>
+
+    <properties>
+        <java.version>25</java.version>
+        <maven.version>3.9.10</maven.version>
+    </properties>
+
+    ...
+</project>
+```
+
+XML format has several features that are pretty interesting for this project:
+
+- Syntax validation with an XML Schema
+- The capacity to transform to another format like Markdown
+- The capacity to compose documents from other sources
+- The capacity to mix heterogeneous sources from different technologies like bash scripts, other documents, examples written in Java inside XML comments
+- Good support in Java
+- Good tooling support in in JVM ecosystem
+
+With these premises in mind, PML was designed.
 
 ### Examples
 
 **Hello World in console:**
+
+You could define the following prompt:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -19,12 +63,43 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 </prompt>
 ```
 
+But with this anemic prompt, exist a high probability that frontier models could not implement in the same way that you have in mind.
+
+Lets iterate this idea to show how to use `PML`.
+
+[`PML Schema`](./schema/src/main/resources/pml.xsd) define the following parts:
+
+```xml
+<!-- Root element for a prompt -->
+<xs:element name="prompt">
+    <xs:complexType>
+        <xs:sequence>
+            <xs:element ref="metadata" minOccurs="0"/>
+            <xs:element ref="title" minOccurs="0"/>
+            <xs:element ref="role" minOccurs="0"/>
+            <xs:element ref="tone" minOccurs="0"/>
+            <xs:element ref="context" minOccurs="0"/>
+            <xs:element ref="goal"/>
+            <xs:element ref="constraints" minOccurs="0"/>
+            <xs:element ref="steps" minOccurs="0" />
+            <xs:element ref="examples" minOccurs="0"/>
+            <xs:element ref="output-format" minOccurs="0"/>
+            <xs:element ref="safeguards" minOccurs="0"/>
+            <xs:element ref="acceptance-criteria" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:element>
+```
+
+Some parts are mandatory other not.
+Lets continue with the next example implementing the same idea in Java.
+
 **Hello World in Java:**
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0-SNAPSHOT/pml.xsd">
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0/pml.xsd">
     <title>Develop a HelloWorld Java Class program</title>
 
     <role>You are a Senior software engineer with extensive experience in Java software development</role>
@@ -66,44 +141,44 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 
 **Java 25 Installation:**
 
+In your prompts, you could have to include scripts like in this prompt:
+
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
-<prompt>
+<prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0/pml.xsd">
     <title>Install Java 25 in Cursor Cloud Agent</title>
 
     <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
 
-    <goal>Update the VM to Java 25 using the following commands:
+    <goal>Update the VM to Java 25. Follow the next step to achieve the goal.</goal>
 
-    ```bash
-    sudo apt update
-    # Install SDKMAN
-    curl -s "https://get.sdkman.io" | bash
-    source "$HOME/.sdkman/bin/sdkman-init.sh"
-    sdk install java 25.0.1-graalce
-    sdk default java 25.0.1-graalce
-    java -version
-    ```
-    </goal>
+    <steps>
+        <step number="1">
+            <step-title>Install Java 25 with SDKMAN</step-title>
+            <step-content>
+                ```bash
+                sudo apt update
+                # Install SDKMAN
+                curl -s "https://get.sdkman.io" | bash
+                source "$HOME/.sdkman/bin/sdkman-init.sh"
+                sdk install java 25.0.1-graalce
+                sdk default java 25.0.1-graalce
+                java -version
+                ```
+            </step-content>
+            <step-constraints>
+                <step-constraint-list>
+                    <step-constraint>Do not invest time in planning</step-constraint>
+                    <step-constraint>Only install the component with the given command</step-constraint>
+                </step-constraint-list>
+            </step-constraints>
+        </step>
+    </steps>
 
-    <constraints>
-        <constraint-list>
-            <constraint>Don`t invest time in planning</constraint>
-            <constraint>Only install the component with the given command</constraint>
-        </constraint-list>
-    </constraints>
+    <output-format>Do not explain anything</output-format>
 
-    <output-format>
-        <output-format-list>
-            <output-format-item>Don't explain anything</output-format-item>
-        </output-format-list>
-    </output-format>
-
-    <safeguards>
-        <safeguards-list>
-            <safeguards-item>verify that java is configured for java 25 executing `java -version`</safeguards-item>
-        </safeguards-list>
-    </safeguards>
+    <safeguards>Verify that java is configured for java 25 executing `java -version`</safeguards>
 
     <acceptance-criteria>
         <acceptance-criteria-list>
@@ -114,9 +189,25 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 </prompt>
 ```
 
-## PML Workflow
+## PML Workflows
 
-### Sequence pattern
+### Motivation
+
+Using Frontier models, you could delegate coding tasks, and the final outcome of a task could be produced by executing a set of prompts.
+
+A PML Workflow file define the way of a set prompts will be executed by an Engine
+
+### Prompts formats
+
+Prompts can be defined in 3 different ways:
+
+- PML (*.pml)
+- Markdown (*.md)
+- Plain text (.txt)
+
+### Agentic patterns
+
+#### Sequence pattern
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -129,7 +220,7 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 </pml-workflow>
 ```
 
-### Parallel pattern
+#### Parallel pattern
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -143,8 +234,6 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
     </sequence>
 </pml-workflow>
 ```
-
-New Agentic patterns soon.
 
 ## Java Bindings
 

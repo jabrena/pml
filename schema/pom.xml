@@ -7,13 +7,13 @@
     <parent>
         <groupId>info.jab.pml</groupId>
         <artifactId>prompt-markup-language</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.3.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>info.jab.pml</groupId>
     <artifactId>schema</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
     <name>schema</name>
 
