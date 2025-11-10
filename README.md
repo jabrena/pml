@@ -6,7 +6,7 @@ The home of XML Schemas for PML (Prompt Markup Language), PML Workflow and relat
 
 ### Motivation
 
-PML was created to design good `User Prompts` & `System Prompts` to `mitigate ambiguity` in frontier models' execution.
+PML was created to design good `User Prompts` & `System Prompts` to `mitigate ambiguity` in frontier model's execution.
 
 PML is an `XML Schema` that helps software engineers model `User Prompts` & `System Prompts` effectively. Once the prompt is modeled in XML, it can be converted into `Markdown`, a format that models understand well. Using the PML Schema guidelines, it is easier to ensure that nothing important is missed when defining a prompt designed for production environments.
 
