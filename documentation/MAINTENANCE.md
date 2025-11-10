@@ -35,8 +35,10 @@ git push --tags
 ```
 ## Undo Tags if something goes wrong
 
+```bash
 # Delete locally
 git tag -d 0.3.0
 
 # Delete from remote
 git push origin --delete 0.3.0
+```
