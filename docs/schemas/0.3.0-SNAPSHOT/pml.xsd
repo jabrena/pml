@@ -2,7 +2,7 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            elementFormDefault="qualified">
 
-    <!-- Root element for a system prompt -->
+    <!-- Root element for a prompt -->
     <xs:element name="prompt">
         <xs:complexType>
             <xs:sequence>
@@ -236,9 +236,9 @@
 
     <!-- Output format section -->
     <xs:element name="output-format">
-        <xs:complexType>
+        <xs:complexType mixed="true">
             <xs:sequence>
-                <xs:element ref="output-format-list"/>
+                <xs:element ref="output-format-list" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -255,9 +255,9 @@
 
     <!-- Safeguards section -->
     <xs:element name="safeguards">
-        <xs:complexType>
+        <xs:complexType mixed="true">
             <xs:sequence>
-                <xs:element ref="safeguards-list"/>
+                <xs:element ref="safeguards-list" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
