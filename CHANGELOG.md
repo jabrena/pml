@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2025-11-10
+
+### Changed
+
+- Enhanced PML schema with mixed content support for better flexibility
+- Made `output-format-list` and `safeguards-list` elements optional in PML schema
+- Improved documentation and README with clearer examples and explanations
+
+### Removed (Many thanks for the feedback @maxandersen)
+
+- Removed optional `type` attribute from `PromptType` element in PML Workflow schema
+- Removed `fallback-type` attribute from `SequenceType` in PML Workflow schema
+- Removed `type` attribute from `ParallelType` in PML Workflow schema
+- Removed `PromptTypeEnum` type definition from PML Workflow schema
+
 ## [0.2.0] - 2025-11-03
 
 ### Added
