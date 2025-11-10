@@ -37,7 +37,7 @@ Java software engineers use XML daily because `Maven` is based on XML and it has
 </project>
 ```
 
-XML format has several features that are pretty interesting for this project:
+The XML format has several features that are pretty interesting for this project:
 
 - Syntax validation with an XML Schema
 - The capacity to transform to another format like Markdown
