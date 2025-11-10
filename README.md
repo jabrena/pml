@@ -10,7 +10,7 @@ PML was created to design good `User Prompts` & `System Prompts` to `mitigate am
 
 PML is an `XML Schema` that helps software engineers model `User Prompts` & `System Prompts` effectively. Once the prompt is modeled in XML, it can be converted into `Markdown`, a format that models understand well. Using the PML Schema guidelines, it is easier to ensure that nothing important is missed when defining a prompt designed for production environments.
 
-### Why XML?
+### Why XML format?
 
 Java software engineers use XML daily because `Maven` is based on XML and it has a schema, so it is a familiar format for everyone.
 
