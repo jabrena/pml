@@ -224,12 +224,11 @@ Prompts can be defined in 3 different ways:
 <?xml version="1.0" encoding="UTF-8"?>
 <pml-workflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0-SNAPSHOT/pml-workflow.xsd">
-    <sequence
-        model="default" repository="https://github.com/jabrena/wjax25-demos"
-        timeout="5m" fallback-src="fallback-prompt.xml" fallback-type="pml">
-        <prompt src="prompt1.xml" />
-        <prompt src="prompt2.md" />
-    </sequence>
+    <parallel src="prompt-toc.xml" bindResultType="List_Integer">
+        <sequence model="default" repository="https://github.com/jabrena/wjax25-demos">
+            <prompt src="prompt2.xml" bindResultExp="$get()"/>
+        </sequence>
+    </parallel>
 </pml-workflow>
 ```
 
