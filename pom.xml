@@ -33,7 +33,7 @@
         <jspecify.version>1.0.0</jspecify.version>
         <error-prone.version>2.45.0</error-prone.version>
         <nullaway.version>0.12.14</nullaway.version>
-        <maven-plugin-resources.version>3.3.1</maven-plugin-resources.version>
+        <maven-plugin-resources.version>3.4.0</maven-plugin-resources.version>
         <maven-plugin-jaxb2.version>0.15.3</maven-plugin-jaxb2.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
         <maven-plugin-checkstyle.version>3.6.0</maven-plugin-checkstyle.version>
