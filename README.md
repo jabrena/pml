@@ -239,8 +239,7 @@ The repository provides a CLI tool to convert PML files into Markdown in an easy
 ```bash
 ./mvnw clean package
 java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar --help
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar validate --file cli/src/test/resources/pml/pml-hello-world.xml
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar validate --file cli/src/test/resources/pml/invalid-pml.xml
+java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar validate cli/src/test/resources/pml/pml-hello-world.xml
 ```
 
 ## Java Bindings

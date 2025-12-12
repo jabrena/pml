@@ -50,7 +50,7 @@ jobs:
           echo "✓ Validate command help works"
 
           echo "=== Test 4: Convert valid PML file ==="
-          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-hello-world.xml > /tmp/output.md
+          java -jar "$JAR" convert cli/src/test/resources/pml/pml-hello-world.xml > /tmp/output.md
           if [ ! -s /tmp/output.md ]; then
             echo "ERROR: Convert command produced empty output"
             exit 1
@@ -58,7 +58,7 @@ jobs:
           echo "✓ Convert command succeeded"
 
           echo "=== Test 5: Convert with template replacement ==="
-          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-hello-world.xml --template goal "Updated goal text" > /tmp/output-template.md
+          java -jar "$JAR" convert cli/src/test/resources/pml/pml-hello-world.xml --template goal "Updated goal text" > /tmp/output-template.md
           if ! grep -q "Updated goal text" /tmp/output-template.md; then
             echo "ERROR: Template replacement did not work"
             exit 1
@@ -66,7 +66,7 @@ jobs:
           echo "✓ Template replacement succeeded"
 
           echo "=== Test 6: Convert with multiple template replacements ==="
-          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-with-multiple-fields.xml \
+          java -jar "$JAR" convert cli/src/test/resources/pml/pml-with-multiple-fields.xml \
             --template title "New Title" role "New Role" goal "New Goal" > /tmp/output-multiple.md
           if ! grep -q "New Title" /tmp/output-multiple.md || ! grep -q "New Role" /tmp/output-multiple.md || ! grep -q "New Goal" /tmp/output-multiple.md; then
             echo "ERROR: Multiple template replacements did not work"
@@ -75,7 +75,7 @@ jobs:
           echo "✓ Multiple template replacements succeeded"
 
           echo "=== Test 7: Validate valid PML file ==="
-          java -jar "$JAR" validate --file cli/src/test/resources/pml/pml-hello-world.xml
+          java -jar "$JAR" validate cli/src/test/resources/pml/pml-hello-world.xml
           if [ $? -ne 0 ]; then
             echo "ERROR: Validation of valid file failed"
             exit 1

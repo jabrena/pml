@@ -10,9 +10,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import org.jspecify.annotations.Nullable;
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 @Command(
     name = "validate",
@@ -23,15 +22,12 @@ public class ValidateCommand implements Callable<Integer> {
 
     private static final String PML_XSD_SCHEMA = "pml.xsd";
 
-    @Option(names = "--file", required = true, description = "Path to the PML file to validate")
-    private @Nullable String filePath;
+    @Parameters(index = "0", description = "Path to the PML file to validate")
+    @SuppressWarnings("NullAway.Init")
+    private String filePath;
 
     @Override
     public Integer call() {
-        if (filePath == null) {
-            System.err.println("Error: File path is required");
-            return 1;
-        }
         Path pmlFile = Paths.get(filePath);
         if (!Files.exists(pmlFile)) {
             System.err.println("Error: File not found: " + filePath);

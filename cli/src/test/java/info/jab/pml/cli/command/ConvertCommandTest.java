@@ -39,7 +39,7 @@ class ConvertCommandTest {
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", validPmlFile.toString()};
+        String[] args = {validPmlFile.toString()};
 
         // When
         int exitCode = cmd.execute(args);
@@ -58,7 +58,7 @@ class ConvertCommandTest {
         // Given
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", "/nonexistent/file.xml"};
+        String[] args = {"/nonexistent/file.xml"};
 
         // When
         int exitCode = cmd.execute(args);
@@ -80,7 +80,7 @@ class ConvertCommandTest {
 
         // Then
         assertThat(exitCode).isNotEqualTo(0);
-        assertThat(errContent.toString(UTF_8)).contains("--file");
+        assertThat(errContent.toString(UTF_8)).contains("Missing required parameter");
     }
 
     @Test
@@ -90,7 +90,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", "Updated goal text"};
 
         // When
@@ -111,7 +111,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "MESSAGE", "Hello World"
         };
 
@@ -133,7 +133,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "nonexistent-field", "This should be skipped", "goal", "This should work"
         };
 
@@ -155,7 +155,7 @@ class ConvertCommandTest {
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", validPmlFile.toString(), "--template"};
+        String[] args = {validPmlFile.toString(), "--template"};
 
         // When
         int exitCode = cmd.execute(args);
@@ -173,7 +173,7 @@ class ConvertCommandTest {
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", validPmlFile.toString(), "--template", "goal", "Replaced goal value"};
+        String[] args = {validPmlFile.toString(), "--template", "goal", "Replaced goal value"};
 
         // When
         int exitCode = cmd.execute(args);
@@ -192,7 +192,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "title", "New Title", "role", "New Role", "goal", "New Goal"
         };
 
@@ -217,7 +217,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", "Value with \"quotes\" and <tags> & special chars"
         };
 
@@ -238,7 +238,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", ""
         };
 
@@ -260,7 +260,7 @@ class ConvertCommandTest {
         CommandLine cmd = new CommandLine(command);
         String multilineValue = "Line 1\nLine 2\nLine 3";
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", multilineValue
         };
 
@@ -280,7 +280,7 @@ class ConvertCommandTest {
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", validPmlFile.toString()};
+        String[] args = {validPmlFile.toString()};
 
         // When
         int exitCode = cmd.execute(args);
@@ -302,7 +302,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "nonexistent-field", "This should be skipped", "goal", "This should work"
         };
 
@@ -325,7 +325,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "field1", "Value1", "field2", "Value2", "field3", "Value3"
         };
 
@@ -346,7 +346,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", "value1", "role"  // Missing value - odd number of args
         };
 
@@ -366,7 +366,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "", "Some value"
         };
 
@@ -387,7 +387,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal field", "Some value"
         };
 
@@ -408,7 +408,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "nonexistent1", "Value1", "title", "New Title", "nonexistent2", "Value2", "role", "New Role"
         };
 
@@ -430,7 +430,7 @@ class ConvertCommandTest {
         ConvertCommand command = new ConvertCommand();
         CommandLine cmd = new CommandLine(command);
         String[] args = {
-            "--file", validPmlFile.toString(),
+            validPmlFile.toString(),
             "--template", "goal", "First value", "goal", "Second value", "goal", "Final value"
         };
 

@@ -39,7 +39,7 @@ class ValidateCommandTest {
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ValidateCommand command = new ValidateCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", validPmlFile.toString()};
+        String[] args = {validPmlFile.toString()};
 
         // When
         int exitCode = cmd.execute(args);
@@ -54,7 +54,7 @@ class ValidateCommandTest {
         Path invalidPmlFile = Paths.get(getClass().getResource("/pml/invalid-pml.xml").toURI());
         ValidateCommand command = new ValidateCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", invalidPmlFile.toString()};
+        String[] args = {invalidPmlFile.toString()};
 
         // When
         int exitCode = cmd.execute(args);
@@ -69,7 +69,7 @@ class ValidateCommandTest {
         // Given
         ValidateCommand command = new ValidateCommand();
         CommandLine cmd = new CommandLine(command);
-        String[] args = {"--file", "/nonexistent/file.xml"};
+        String[] args = {"/nonexistent/file.xml"};
 
         // When
         int exitCode = cmd.execute(args);
@@ -80,7 +80,7 @@ class ValidateCommandTest {
     }
 
     @Test
-    void validate_withMissingFileOption_shouldShowError() {
+    void validate_withMissingFileParameter_shouldShowError() {
         // Given
         ValidateCommand command = new ValidateCommand();
         CommandLine cmd = new CommandLine(command);
@@ -91,6 +91,6 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isNotEqualTo(0);
-        assertThat(errContent.toString(UTF_8)).contains("--file");
+        assertThat(errContent.toString(UTF_8)).contains("Missing required parameter");
     }
 }

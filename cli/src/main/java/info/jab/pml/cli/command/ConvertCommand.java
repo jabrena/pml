@@ -26,6 +26,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
+import picocli.CommandLine.Parameters;
 
 @Command(
     name = "convert",
@@ -34,8 +35,9 @@ import picocli.CommandLine.Option;
     usageHelpAutoWidth = true)
 public class ConvertCommand implements Callable<Integer> {
 
-    @Option(names = "--file", required = true, description = "Path to the PML file to convert")
-    private @Nullable String filePath;
+    @Parameters(index = "0", description = "Path to the PML file to convert")
+    @SuppressWarnings("NullAway.Init")
+    private String filePath;
 
     @Option(names = "--template", arity = "2..*", description = "Template replacement: FIELD VALUE [FIELD VALUE ...] (e.g., --template goal \"New goal\" role \"assistant\")")
     private @Nullable List<String> templatePairs = new ArrayList<>();
@@ -43,10 +45,6 @@ public class ConvertCommand implements Callable<Integer> {
     @Override
     public Integer call() throws Exception {
         try {
-            if (filePath == null) {
-                System.err.println("Error: File path is required");
-                return 1;
-            }
             Path pmlFile = Paths.get(filePath);
             if (!Files.exists(pmlFile)) {
                 System.err.println("Error: File not found: " + filePath);
@@ -60,6 +58,20 @@ public class ConvertCommand implements Callable<Integer> {
                 return 1;
             }
 
+            if (convertPmlToMarkdown(pmlFile, templateMap)) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } catch (Exception e) {
+            System.err.println("Conversion failed: " + e.getMessage());
+            e.printStackTrace();
+            return 1;
+        }
+    }
+
+    private boolean convertPmlToMarkdown(Path pmlFile, Map<String, String> templateMap) {
+        try {
             // Read and process PML file
             String pmlContent = Files.readString(pmlFile, StandardCharsets.UTF_8);
             String processedPml = applyTemplates(pmlContent, templateMap);
@@ -70,7 +82,7 @@ public class ConvertCommand implements Callable<Integer> {
 
             if (xsltStream == null) {
                 System.err.println("Error: Could not find pml-to-md.xsl transformation file");
-                return 1;
+                return false;
             }
 
             // Create transformer
@@ -83,11 +95,11 @@ public class ConvertCommand implements Callable<Integer> {
             StreamResult result = new StreamResult(System.out);
             transformer.transform(xmlSource, result);
 
-            return 0;
+            return true;
         } catch (Exception e) {
             System.err.println("Conversion failed: " + e.getMessage());
             e.printStackTrace();
-            return 1;
+            return false;
         }
     }
 
