@@ -46,7 +46,6 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString(UTF_8)).contains("Validation successful");
     }
 
     @Test

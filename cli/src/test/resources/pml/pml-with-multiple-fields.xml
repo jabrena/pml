@@ -3,13 +3,7 @@
     <title>Test Title</title>
     <role>Test Role</role>
     <goal>
-        <goal>
-            Original goal content
-        </goal>
+        Create a java class that prints
+        "MESSAGE" in the console
     </goal>
-    <context>
-        <context>
-            Original context
-        </context>
-    </context>
 </prompt>

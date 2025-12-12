@@ -14,79 +14,58 @@ import org.jspecify.annotations.Nullable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "validate", description = "Validates a PML file against the XSD schema", mixinStandardHelpOptions = true)
+@Command(
+    name = "validate",
+    description = "Validates a PML file against the XSD schema",
+    mixinStandardHelpOptions = true,
+    usageHelpAutoWidth = true)
 public class ValidateCommand implements Callable<Integer> {
+
+    private static final String PML_XSD_SCHEMA = "pml.xsd";
 
     @Option(names = "--file", required = true, description = "Path to the PML file to validate")
     private @Nullable String filePath;
 
     @Override
-    public Integer call() throws Exception {
-        try {
-            if (filePath == null) {
-                System.err.println("Error: File path is required");
-                return 1;
-            }
-            Path pmlFile = Paths.get(filePath);
-            if (!Files.exists(pmlFile)) {
-                System.err.println("Error: File not found: " + filePath);
-                return 1;
-            }
+    public Integer call() {
+        if (filePath == null) {
+            System.err.println("Error: File path is required");
+            return 1;
+        }
+        Path pmlFile = Paths.get(filePath);
+        if (!Files.exists(pmlFile)) {
+            System.err.println("Error: File not found: " + filePath);
+            return 1;
+        }
 
-            // Load XSD schemas from resources
+        if (validatePmlFile(pmlFile)) {
+            return 0;
+        } else {
+            return 1;
+        }
+    }
+
+    private boolean validatePmlFile(Path pmlFile) {
+        try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
             // Load pml.xsd from resources (copied from schema module)
             InputStream pmlXsdStream = getClass().getClassLoader()
-                .getResourceAsStream("pml.xsd");
+                .getResourceAsStream(PML_XSD_SCHEMA);
 
-            // Try loading from docs/schemas/0.3.0/ as fallback
             if (pmlXsdStream == null) {
-                Path xsdPath = Paths.get("docs/schemas/0.3.0/pml.xsd");
-                if (Files.exists(xsdPath)) {
-                    Schema schema = schemaFactory.newSchema(xsdPath.toFile());
-                    Validator validator = schema.newValidator();
-                    validator.validate(new StreamSource(pmlFile.toFile()));
-                    System.out.println("Validation successful: " + filePath);
-                    return 0;
-                } else {
-                    System.err.println("Error: Could not find pml.xsd schema file");
-                    return 1;
-                }
+                System.err.println("Error: Could not find " + PML_XSD_SCHEMA + " schema file in resources");
+                return false;
             }
 
-            // Load pml-workflow.xsd if available
-            InputStream workflowXsdStream = getClass().getClassLoader()
-                .getResourceAsStream("pml-workflow.xsd");
-            if (workflowXsdStream == null) {
-                Path workflowXsdPath = Paths.get("docs/schemas/0.3.0/pml-workflow.xsd");
-                if (Files.exists(workflowXsdPath)) {
-                    workflowXsdStream = Files.newInputStream(workflowXsdPath);
-                }
-            }
-
-            StreamSource[] schemaSources;
-            if (workflowXsdStream != null) {
-                schemaSources = new StreamSource[]{
-                    new StreamSource(pmlXsdStream, "pml.xsd"),
-                    new StreamSource(workflowXsdStream, "pml-workflow.xsd")
-                };
-            } else {
-                schemaSources = new StreamSource[]{
-                    new StreamSource(pmlXsdStream, "pml.xsd")
-                };
-            }
-
-            Schema schema = schemaFactory.newSchema(schemaSources);
+            Schema schema = schemaFactory.newSchema(new StreamSource(pmlXsdStream, PML_XSD_SCHEMA));
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(pmlFile.toFile()));
-
-            System.out.println("Validation successful: " + filePath);
-            return 0;
+            return true;
         } catch (Exception e) {
             System.err.println("Validation failed: " + e.getMessage());
             e.printStackTrace();
-            return 1;
+            return false;
         }
     }
 }

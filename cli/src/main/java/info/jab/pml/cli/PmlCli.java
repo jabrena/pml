@@ -9,7 +9,8 @@ import picocli.CommandLine;
     name = "pml",
     description = "PML (Prompt Markup Language) CLI tool",
     subcommands = {ValidateCommand.class, ConvertCommand.class},
-    mixinStandardHelpOptions = true
+    mixinStandardHelpOptions = true,
+    usageHelpAutoWidth = true
 )
 public class PmlCli implements Runnable {
 

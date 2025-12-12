@@ -67,9 +67,7 @@ jobs:
 
           echo "=== Test 6: Convert with multiple template replacements ==="
           java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-with-multiple-fields.xml \
-            --template title "New Title" \
-            --template role "New Role" \
-            --template goal "New Goal" > /tmp/output-multiple.md
+            --template title "New Title" role "New Role" goal "New Goal" > /tmp/output-multiple.md
           if ! grep -q "New Title" /tmp/output-multiple.md || ! grep -q "New Role" /tmp/output-multiple.md || ! grep -q "New Goal" /tmp/output-multiple.md; then
             echo "ERROR: Multiple template replacements did not work"
             exit 1

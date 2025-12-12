@@ -27,13 +27,17 @@ import org.w3c.dom.NodeList;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "convert", description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout", mixinStandardHelpOptions = true)
+@Command(
+    name = "convert",
+    description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout",
+    mixinStandardHelpOptions = true,
+    usageHelpAutoWidth = true)
 public class ConvertCommand implements Callable<Integer> {
 
     @Option(names = "--file", required = true, description = "Path to the PML file to convert")
     private @Nullable String filePath;
 
-    @Option(names = "--template", arity = "2", description = "Template replacement: FIELD VALUE (e.g., --template goal \"New goal\" --template role \"assistant\")")
+    @Option(names = "--template", arity = "2..*", description = "Template replacement: FIELD VALUE [FIELD VALUE ...] (e.g., --template goal \"New goal\" role \"assistant\")")
     private @Nullable List<String> templatePairs = new ArrayList<>();
 
     @Override
@@ -51,6 +55,10 @@ public class ConvertCommand implements Callable<Integer> {
 
             // Parse template pairs into a map
             Map<String, String> templateMap = parseTemplatePairs();
+            if (templateMap == null) {
+                System.err.println("Error: --template requires an even number of arguments (pairs of FIELD VALUE)");
+                return 1;
+            }
 
             // Read and process PML file
             String pmlContent = Files.readString(pmlFile, StandardCharsets.UTF_8);
@@ -83,14 +91,19 @@ public class ConvertCommand implements Callable<Integer> {
         }
     }
 
-    private Map<String, String> parseTemplatePairs() {
+    private @Nullable Map<String, String> parseTemplatePairs() {
         Map<String, String> templateMap = new HashMap<>();
         if (templatePairs == null || templatePairs.isEmpty()) {
             return templateMap;
         }
 
+        // Validate that we have an even number of arguments (pairs)
+        if (templatePairs.size() % 2 != 0) {
+            return null;
+        }
+
         // Parse pairs: [field1, value1, field2, value2, ...]
-        for (int i = 0; i < templatePairs.size() - 1; i += 2) {
+        for (int i = 0; i < templatePairs.size(); i += 2) {
             String field = templatePairs.get(i);
             String value = templatePairs.get(i + 1);
             templateMap.put(field, value);
