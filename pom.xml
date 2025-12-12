@@ -18,7 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <picocli.version>4.7.6</picocli.version>
+        <picocli.version>4.7.7</picocli.version>
         <jakarta-xml-bind-api.version>4.0.4</jakarta-xml-bind-api.version>
         <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
         <jakarta-annotation-api.version>3.0.0</jakarta-annotation-api.version>
@@ -36,7 +36,8 @@
         <error-prone.version>2.45.0</error-prone.version>
         <nullaway.version>0.12.14</nullaway.version>
         <maven-plugin-resources.version>3.4.0</maven-plugin-resources.version>
-        <maven-plugin-jaxb2.version>0.15.3</maven-plugin-jaxb2.version>
+        <maven-plugin-jaxb2.version>4.0.0</maven-plugin-jaxb2.version>
+        <jaxb-xjc.version>4.0.6</jaxb-xjc.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
         <maven-plugin-checkstyle.version>3.6.0</maven-plugin-checkstyle.version>
         <maven-plugin-project-info-reports.version>3.9.0</maven-plugin-project-info-reports.version>

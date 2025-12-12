@@ -17,11 +17,6 @@
     <packaging>jar</packaging>
     <name>types</name>
 
-    <properties>
-        <maven-plugin-jaxb2.version>4.0.0</maven-plugin-jaxb2.version>
-        <jaxb-xjc.version>4.0.5</jaxb-xjc.version>
-    </properties>
-
     <dependencies>
 
         <dependency>
