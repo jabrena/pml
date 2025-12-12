@@ -8,7 +8,6 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,14 +32,9 @@ public class ValidateCommand implements Callable<Integer> {
             // Load XSD schemas from resources
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             
-            // Load pml.xsd
+            // Load pml.xsd from resources (copied from schema module)
             InputStream pmlXsdStream = getClass().getClassLoader()
                 .getResourceAsStream("pml.xsd");
-            if (pmlXsdStream == null) {
-                // Try to load from the schema module resources
-                pmlXsdStream = getClass().getClassLoader()
-                    .getResourceAsStream("../../schema/src/main/resources/pml.xsd");
-            }
             
             // Try loading from docs/schemas/0.3.0/ as fallback
             if (pmlXsdStream == null) {
