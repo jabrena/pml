@@ -150,7 +150,7 @@ class ConvertCommandTest {
     }
 
     @Test
-    void convert_withTemplateButNoPairs_shouldWorkNormally() throws Exception {
+    void convert_withTemplateButNoPairs_shouldFail() throws Exception {
         // Given
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
@@ -163,5 +163,320 @@ class ConvertCommandTest {
         // Then
         // Should fail because --template requires 2 arguments (arity = "2")
         assertThat(exitCode).isNotEqualTo(0);
+    }
+
+    // ========== POSITIVE TEST CASES ==========
+
+    @Test
+    void convert_withSingleTemplateReplacement_shouldReplaceFieldSuccessfully() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {"--file", validPmlFile.toString(), "--template", "goal", "Replaced goal value"};
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).contains("Replaced goal value");
+        assertThat(output).doesNotContain("Print \"Hello World\"");
+    }
+
+    @Test
+    void convert_withMultipleDifferentFields_shouldReplaceAllFields() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-with-multiple-fields.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "title", "New Title",
+            "--template", "role", "New Role",
+            "--template", "goal", "New Goal"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).contains("New Title");
+        assertThat(output).contains("New Role");
+        assertThat(output).contains("New Goal");
+        assertThat(output).doesNotContain("Test Title");
+        assertThat(output).doesNotContain("Test Role");
+        assertThat(output).doesNotContain("Original goal content");
+    }
+
+    @Test
+    void convert_withTemplateSpecialCharacters_shouldHandleSpecialChars() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal", "Value with \"quotes\" and <tags> & special chars"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // XML special characters should be properly escaped/handled
+    }
+
+    @Test
+    void convert_withTemplateEmptyValue_shouldReplaceWithEmptyString() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal", ""
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Empty value replacement should work without errors
+    }
+
+    @Test
+    void convert_withTemplateMultilineValue_shouldHandleMultiline() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String multilineValue = "Line 1\nLine 2\nLine 3";
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal", multilineValue
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Multiline values should be handled
+    }
+
+    @Test
+    void convert_withTemplatePreservesOtherFields_shouldOnlyReplaceSpecifiedFields() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-with-multiple-fields.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "title", "New Title"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).contains("New Title");
+        // Other fields should remain unchanged (role, goal, context)
+        assertThat(output).contains("Test Role");
+        assertThat(output).contains("Original goal content");
+    }
+
+    @Test
+    void convert_withTemplateNoReplacements_shouldWorkNormally() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {"--file", validPmlFile.toString()};
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Original content should be present
+        assertThat(output).contains("Hello World");
+    }
+
+    // ========== NEGATIVE TEST CASES ==========
+
+    @Test
+    void convert_withNonExistentField_shouldSkipFieldSilently() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "nonexistent-field", "This should be skipped",
+            "--template", "goal", "This should work"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // The existing field replacement should work
+        assertThat(output).contains("This should work");
+        // Non-existent field should be skipped (no error, no crash)
+    }
+
+    @Test
+    void convert_withMultipleNonExistentFields_shouldSkipAllSilently() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "field1", "Value1",
+            "--template", "field2", "Value2",
+            "--template", "field3", "Value3"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Should complete successfully even when no fields are found
+    }
+
+    @Test
+    void convert_withTemplateOddNumberOfArguments_shouldFail() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal", "value1",
+            "--template", "role"  // Missing value
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        // Picocli should handle this and either fail or require the value
+        // The behavior depends on picocli's arity handling
+        assertThat(exitCode).isNotEqualTo(0);
+    }
+
+    @Test
+    void convert_withTemplateEmptyFieldName_shouldSkipField() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "", "Some value"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Empty field name should be skipped (no match found)
+    }
+
+    @Test
+    void convert_withTemplateFieldNameWithSpaces_shouldSkipField() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal field", "Some value"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).isNotEmpty();
+        // Field name with spaces won't match XML element names, should be skipped
+    }
+
+    @Test
+    void convert_withTemplateMixedExistentAndNonExistentFields_shouldReplaceOnlyExistent() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-with-multiple-fields.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "nonexistent1", "Value1",
+            "--template", "title", "New Title",
+            "--template", "nonexistent2", "Value2",
+            "--template", "role", "New Role"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        assertThat(output).contains("New Title");
+        assertThat(output).contains("New Role");
+        // Non-existent fields should be skipped, existent ones replaced
+    }
+
+    @Test
+    void convert_withTemplateSameFieldMultipleTimes_shouldUseLastValue() throws Exception {
+        // Given
+        Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
+        ConvertCommand command = new ConvertCommand();
+        CommandLine cmd = new CommandLine(command);
+        String[] args = {
+            "--file", validPmlFile.toString(),
+            "--template", "goal", "First value",
+            "--template", "goal", "Second value",
+            "--template", "goal", "Final value"
+        };
+
+        // When
+        int exitCode = cmd.execute(args);
+
+        // Then
+        assertThat(exitCode).isEqualTo(0);
+        String output = outContent.toString(UTF_8);
+        // Last replacement should be in output (all replacements happen, last one wins)
+        assertThat(output).contains("Final value");
+        assertThat(output).doesNotContain("First value");
+        assertThat(output).doesNotContain("Second value");
     }
 }

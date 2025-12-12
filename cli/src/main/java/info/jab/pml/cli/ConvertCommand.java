@@ -137,14 +137,12 @@ public class ConvertCommand implements Callable<Integer> {
 
                 // Check if this is the field we're looking for
                 if (fieldName.equals(tagName)) {
-                    // Replace the content
+                    // Replace all content (both text nodes and child elements)
                     NodeList contentNodes = childElement.getChildNodes();
-                    // Remove existing text content
+                    // Remove all child nodes (both elements and text)
                     for (int j = contentNodes.getLength() - 1; j >= 0; j--) {
                         Node contentNode = contentNodes.item(j);
-                        if (contentNode.getNodeType() == Node.TEXT_NODE) {
-                            childElement.removeChild(contentNode);
-                        }
+                        childElement.removeChild(contentNode);
                     }
                     // Add new text content
                     childElement.appendChild(element.getOwnerDocument().createTextNode(newValue));

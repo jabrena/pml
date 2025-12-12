@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+    <title>Test Title</title>
+    <role>Test Role</role>
+    <goal>
+        <goal>
+            Original goal content
+        </goal>
+    </goal>
+    <context>
+        <context>
+            Original context
+        </context>
+    </context>
+</prompt>
