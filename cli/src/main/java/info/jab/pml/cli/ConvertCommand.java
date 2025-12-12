@@ -13,7 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
 
-@Command(name = "convert", description = "Converts a PML file to Markdown using XSLT")
+@Command(name = "convert", description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout")
 public class ConvertCommand implements Callable<Integer> {
 
     @Option(names = "--file", required = true, description = "Path to the PML file to convert")
@@ -41,10 +41,8 @@ public class ConvertCommand implements Callable<Integer> {
             TransformerFactory factory = TransformerFactory.newInstance();
             Transformer transformer = factory.newTransformer(new StreamSource(xsltStream));
 
-            // Transform PML to Markdown
+            // Transform PML to Markdown and output to stdout (not a file)
             StreamSource xmlSource = new StreamSource(pmlFile.toFile());
-            
-            // Output to stdout
             StreamResult result = new StreamResult(System.out);
             transformer.transform(xmlSource, result);
             

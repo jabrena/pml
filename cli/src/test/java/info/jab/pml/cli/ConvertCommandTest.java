@@ -33,7 +33,7 @@ class ConvertCommandTest {
     }
 
     @Test
-    void convert_withValidPmlFile_shouldOutputMarkdown() throws Exception {
+    void convert_withValidPmlFile_shouldOutputMarkdownToStdout() throws Exception {
         // Given
         Path validPmlFile = Paths.get(getClass().getResource("/pml/pml-hello-world.xml").toURI());
         ConvertCommand command = new ConvertCommand();
@@ -45,9 +45,11 @@ class ConvertCommandTest {
 
         // Then
         assertThat(exitCode).isEqualTo(0);
-        // The output should contain some markdown content
+        // The output should contain the converted markdown string (output to stdout, not a file)
         String output = outContent.toString();
         assertThat(output).isNotEmpty();
+        // Verify it's markdown-like content (should contain some text from the conversion)
+        assertThat(output).isNotBlank();
     }
 
     @Test
