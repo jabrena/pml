@@ -1,17 +1,16 @@
 package info.jab.pml.cli;
 
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(name = "convert", description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout")
 public class ConvertCommand implements Callable<Integer> {
@@ -31,7 +30,7 @@ public class ConvertCommand implements Callable<Integer> {
             // Load XSLT from resources
             InputStream xsltStream = getClass().getClassLoader()
                 .getResourceAsStream("xslt/pml-to-md.xsl");
-            
+
             if (xsltStream == null) {
                 System.err.println("Error: Could not find pml-to-md.xsl transformation file");
                 return 1;
@@ -45,7 +44,7 @@ public class ConvertCommand implements Callable<Integer> {
             StreamSource xmlSource = new StreamSource(pmlFile.toFile());
             StreamResult result = new StreamResult(System.out);
             transformer.transform(xmlSource, result);
-            
+
             return 0;
         } catch (Exception e) {
             System.err.println("Conversion failed: " + e.getMessage());

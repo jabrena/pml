@@ -1,18 +1,17 @@
 package info.jab.pml.cli;
 
-import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
-
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
+import javax.xml.XMLConstants;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 
 @Command(name = "validate", description = "Validates a PML file against the XSD schema")
 public class ValidateCommand implements Callable<Integer> {
@@ -31,11 +30,11 @@ public class ValidateCommand implements Callable<Integer> {
 
             // Load XSD schemas from resources
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-            
+
             // Load pml.xsd from resources (copied from schema module)
             InputStream pmlXsdStream = getClass().getClassLoader()
                 .getResourceAsStream("pml.xsd");
-            
+
             // Try loading from docs/schemas/0.3.0/ as fallback
             if (pmlXsdStream == null) {
                 Path xsdPath = Paths.get("docs/schemas/0.3.0/pml.xsd");
@@ -76,7 +75,7 @@ public class ValidateCommand implements Callable<Integer> {
             Schema schema = schemaFactory.newSchema(schemaSources);
             Validator validator = schema.newValidator();
             validator.validate(new StreamSource(pmlFile.toFile()));
-            
+
             System.out.println("Validation successful: " + filePath);
             return 0;
         } catch (Exception e) {
