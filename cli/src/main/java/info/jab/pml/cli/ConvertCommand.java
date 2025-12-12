@@ -127,6 +127,7 @@ public class ConvertCommand implements Callable<Integer> {
     }
 
     private void replaceFieldValue(Element element, String fieldName, String newValue) {
+        // If field is not found, skip it (no error thrown)
         NodeList children = element.getChildNodes();
         for (int i = 0; i < children.getLength(); i++) {
             Node node = children.item(i);
@@ -148,10 +149,11 @@ public class ConvertCommand implements Callable<Integer> {
                     // Add new text content
                     childElement.appendChild(element.getOwnerDocument().createTextNode(newValue));
                 } else {
-                    // Recursively search in nested elements
+                    // Recursively search in nested elements (field not found yet, continue searching)
                     replaceFieldValue(childElement, fieldName, newValue);
                 }
             }
         }
+        // If field is never found, it's silently skipped (no exception thrown)
     }
 }
