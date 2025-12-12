@@ -59,6 +59,7 @@
     </dependencies>
 
     <build>
+        <finalName>pml-to-me-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

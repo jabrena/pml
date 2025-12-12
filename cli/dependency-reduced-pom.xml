@@ -11,6 +11,7 @@
   <name>cli</name>
   <version>0.3.0</version>
   <build>
+    <finalName>pml-to-me-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-resources-plugin</artifactId>
