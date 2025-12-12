@@ -9,6 +9,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
+import org.jspecify.annotations.Nullable;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -16,11 +17,15 @@ import picocli.CommandLine.Option;
 public class ConvertCommand implements Callable<Integer> {
 
     @Option(names = "--file", required = true, description = "Path to the PML file to convert")
-    private String filePath;
+    private @Nullable String filePath;
 
     @Override
     public Integer call() throws Exception {
         try {
+            if (filePath == null) {
+                System.err.println("Error: File path is required");
+                return 1;
+            }
             Path pmlFile = Paths.get(filePath);
             if (!Files.exists(pmlFile)) {
                 System.err.println("Error: File not found: " + filePath);

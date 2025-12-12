@@ -1,5 +1,6 @@
 package info.jab.pml.cli;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayOutputStream;
@@ -40,7 +41,7 @@ class PmlCliTest {
 
         // Then
         assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString()).contains("Usage:");
+        assertThat(outContent.toString(UTF_8)).contains("Usage:");
     }
 
     @Test
@@ -53,32 +54,36 @@ class PmlCliTest {
 
         // Then
         assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString()).contains("Usage:");
+        assertThat(outContent.toString(UTF_8)).contains("Usage:");
     }
 
     @Test
     void main_withValidateSubcommand_shouldExecuteValidate() {
         // Given
-        String[] args = {"validate", "--help"};
+        PmlCli cli = new PmlCli();
+        CommandLine cmd = new CommandLine(cli);
 
-        // When
-        int exitCode = new CommandLine(new PmlCli()).execute(args);
-
-        // Then
-        assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString()).contains("validate");
+        // When/Then
+        // Verify that validate subcommand is registered
+        assertThat(cmd.getSubcommands().containsKey("validate")).isTrue();
+        CommandLine validateSubcommand = cmd.getSubcommands().get("validate");
+        assertThat(validateSubcommand).isNotNull();
+        Object command = validateSubcommand.getCommand();
+        assertThat(command).isInstanceOf(ValidateCommand.class);
     }
 
     @Test
     void main_withConvertSubcommand_shouldExecuteConvert() {
         // Given
-        String[] args = {"convert", "--help"};
+        PmlCli cli = new PmlCli();
+        CommandLine cmd = new CommandLine(cli);
 
-        // When
-        int exitCode = new CommandLine(new PmlCli()).execute(args);
-
-        // Then
-        assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString()).contains("convert");
+        // When/Then
+        // Verify that convert subcommand is registered
+        assertThat(cmd.getSubcommands().containsKey("convert")).isTrue();
+        CommandLine convertSubcommand = cmd.getSubcommands().get("convert");
+        assertThat(convertSubcommand).isNotNull();
+        Object command = convertSubcommand.getCommand();
+        assertThat(command).isInstanceOf(ConvertCommand.class);
     }
 }

@@ -1,5 +1,6 @@
 package info.jab.pml.cli;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.ByteArrayOutputStream;
@@ -45,7 +46,7 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isEqualTo(0);
-        assertThat(outContent.toString()).contains("Validation successful");
+        assertThat(outContent.toString(UTF_8)).contains("Validation successful");
     }
 
     @Test
@@ -61,7 +62,7 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isEqualTo(1);
-        assertThat(errContent.toString()).contains("Validation failed");
+        assertThat(errContent.toString(UTF_8)).contains("Validation failed");
     }
 
     @Test
@@ -76,7 +77,7 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isEqualTo(1);
-        assertThat(errContent.toString()).contains("File not found");
+        assertThat(errContent.toString(UTF_8)).contains("File not found");
     }
 
     @Test
@@ -91,6 +92,6 @@ class ValidateCommandTest {
 
         // Then
         assertThat(exitCode).isNotEqualTo(0);
-        assertThat(errContent.toString()).contains("--file");
+        assertThat(errContent.toString(UTF_8)).contains("--file");
     }
 }

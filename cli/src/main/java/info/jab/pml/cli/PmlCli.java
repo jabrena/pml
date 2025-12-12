@@ -1,5 +1,6 @@
 package info.jab.pml.cli;
 
+import org.jspecify.annotations.Nullable;
 import picocli.CommandLine;
 
 @CommandLine.Command(
@@ -11,7 +12,7 @@ import picocli.CommandLine;
 public class PmlCli implements Runnable {
 
     @CommandLine.Spec
-    CommandLine.Model.CommandSpec spec;
+    CommandLine.Model.@Nullable CommandSpec spec;
 
     public static void main(String[] args) {
         int exitCode = new CommandLine(new PmlCli()).execute(args);
@@ -20,6 +21,8 @@ public class PmlCli implements Runnable {
 
     @Override
     public void run() {
-        spec.commandLine().usage(System.out);
+        if (spec != null) {
+            spec.commandLine().usage(System.out);
+        }
     }
 }
