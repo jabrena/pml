@@ -26,13 +26,28 @@ jobs:
           JAR="cli/target/pml-to-md-${{ steps.get_version.outputs.VERSION }}.jar"
 
           echo "=== Test 1: Main command help ==="
-          java -jar "$JAR" --help
+          java -jar "$JAR" --help | grep -q "convert\|validate"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Main help should show subcommands"
+            exit 1
+          fi
+          echo "✓ Main command help shows subcommands"
 
           echo "=== Test 2: Convert command help ==="
-          java -jar "$JAR" convert --help
+          java -jar "$JAR" convert --help | grep -q "Converts a PML file"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Convert command help should show description"
+            exit 1
+          fi
+          echo "✓ Convert command help works"
 
           echo "=== Test 3: Validate command help ==="
-          java -jar "$JAR" validate --help
+          java -jar "$JAR" validate --help | grep -q "Validates a PML file"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Validate command help should show description"
+            exit 1
+          fi
+          echo "✓ Validate command help works"
 
           echo "=== Test 4: Convert valid PML file ==="
           java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-hello-world.xml > /tmp/output.md

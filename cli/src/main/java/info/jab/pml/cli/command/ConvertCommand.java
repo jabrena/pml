@@ -27,7 +27,7 @@ import org.w3c.dom.NodeList;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
-@Command(name = "convert", description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout")
+@Command(name = "convert", description = "Converts a PML file to Markdown using XSLT and outputs the result to stdout", mixinStandardHelpOptions = true)
 public class ConvertCommand implements Callable<Integer> {
 
     @Option(names = "--file", required = true, description = "Path to the PML file to convert")
