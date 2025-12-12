@@ -56,7 +56,6 @@ public class PmlUtils {
             return true;
         } catch (Exception e) {
             System.err.println("Validation failed: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
@@ -88,7 +87,6 @@ public class PmlUtils {
             return true;
         } catch (Exception e) {
             System.err.println("Validation failed: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }
@@ -164,7 +162,6 @@ public class PmlUtils {
             return true;
         } catch (Exception e) {
             System.err.println("Conversion failed: " + e.getMessage());
-            e.printStackTrace();
             return false;
         }
     }

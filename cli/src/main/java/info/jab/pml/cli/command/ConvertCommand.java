@@ -84,7 +84,6 @@ public class ConvertCommand implements Callable<Integer> {
             }
         } catch (Exception e) {
             System.err.println("Conversion failed: " + e.getMessage());
-            e.printStackTrace();
             return 1;
         }
     }
