@@ -232,7 +232,7 @@ Prompts can be defined in 3 different ways:
 </pml-workflow>
 ```
 
-## PML to MD CLI
+## PML to Mardown CLI
 
 The repository provides a CLI tool to convert PML files into Markdown in an easy way.
 
