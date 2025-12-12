@@ -1,4 +1,4 @@
-package info.jab.pml.cli;
+package info.jab.pml.cli.command;
 
 import java.io.InputStream;
 import java.nio.file.Files;

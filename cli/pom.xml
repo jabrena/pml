@@ -17,11 +17,6 @@
     <packaging>jar</packaging>
     <name>cli</name>
 
-    <properties>
-        <picocli.version>4.7.6</picocli.version>
-        <maven-plugin-shade.version>3.6.1</maven-plugin-shade.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>info.jab.pml</groupId>

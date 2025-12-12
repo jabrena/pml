@@ -1,4 +1,4 @@
-package info.jab.pml.cli;
+package info.jab.pml.cli.command;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;

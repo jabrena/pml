@@ -1,5 +1,7 @@
 package info.jab.pml.cli;
 
+import info.jab.pml.cli.command.ConvertCommand;
+import info.jab.pml.cli.command.ValidateCommand;
 import org.jspecify.annotations.Nullable;
 import picocli.CommandLine;
 

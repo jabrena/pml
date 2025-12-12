@@ -1,4 +1,4 @@
-package info.jab.pml.cli;
+package info.jab.pml.cli.command;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
