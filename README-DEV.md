@@ -22,7 +22,6 @@
 # Run unit tests
 ./mvnw clean test
 
-
 # Check for dependency updates
 ./mvnw versions:display-property-updates
 ./mvnw versions:display-dependency-updates

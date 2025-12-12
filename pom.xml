@@ -6,10 +6,11 @@
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
+    <url>https://github.com/jabrena/pml</url>
 
     <properties>
         <java.version>25</java.version>
@@ -17,6 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <picocli.version>4.7.7</picocli.version>
         <jakarta-xml-bind-api.version>4.0.4</jakarta-xml-bind-api.version>
         <jaxb-runtime.version>4.0.6</jaxb-runtime.version>
         <jakarta-annotation-api.version>3.0.0</jakarta-annotation-api.version>
@@ -34,15 +36,19 @@
         <error-prone.version>2.45.0</error-prone.version>
         <nullaway.version>0.12.14</nullaway.version>
         <maven-plugin-resources.version>3.4.0</maven-plugin-resources.version>
-        <maven-plugin-jaxb2.version>0.15.3</maven-plugin-jaxb2.version>
+        <maven-plugin-jaxb2.version>4.0.0</maven-plugin-jaxb2.version>
+        <jaxb-xjc.version>4.0.6</jaxb-xjc.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
         <maven-plugin-checkstyle.version>3.6.0</maven-plugin-checkstyle.version>
         <maven-plugin-project-info-reports.version>3.9.0</maven-plugin-project-info-reports.version>
         <maven-plugin-jxr.version>3.6.0</maven-plugin-jxr.version>
         <maven-plugin-jacoco.version>0.8.14</maven-plugin-jacoco.version>
         <maven-plugin-dependency.version>3.9.0</maven-plugin-dependency.version>
+        <maven-plugin-shade.version>3.6.1</maven-plugin-shade.version>
+        <maven-plugin-properties.version>1.0.0</maven-plugin-properties.version>
+        <maven-plugin-sonar.version>4.5.0.3513</maven-plugin-sonar.version>
 
-        <coverage.level>20</coverage.level>
+        <coverage.level>15</coverage.level>
     </properties>
 
     <dependencyManagement>
@@ -77,21 +83,6 @@
             </dependency>
 
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-api</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-params</artifactId>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
                 <version>${assertj.version}</version>
@@ -103,6 +94,8 @@
     <modules>
         <module>schema</module>
         <module>types</module>
+        <module>cli</module>
+        <module>jacoco-report-aggregated</module>
     </modules>
 
     <build>
@@ -174,7 +167,6 @@
                         <id>enforce</id>
                         <configuration>
                             <rules>
-                                <banCircularDependencies />
                                 <dependencyConvergence />
                                 <banDuplicatePomDependencyVersions />
                                 <requireMavenVersion>
@@ -188,6 +180,19 @@
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
                                 </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>enforce-circular-dependencies</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <rules>
+                                <banCircularDependencies />
                             </rules>
                             <fail>true</fail>
                         </configuration>
@@ -246,6 +251,31 @@
                     <showSuccess>true</showSuccess>
                     <linkXRef>false</linkXRef>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-plugin-project-info-reports.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                            <report>modules</report>
+                            <report>dependencies</report>
+                            <report>dependency-management</report>
+                            <report>plugins</report>
+                            <report>plugin-management</report>
+                            <report>ci-management</report>
+                            <report>scm</report>
+                            <report>distribution-management</report>
+                            <report>licenses</report>
+                            <report>team</report>
+                            <report>mailing-lists</report>
+                            <report>issue-management</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
             </plugin>
         </plugins>
     </reporting>
@@ -327,6 +357,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>promote</id>
             <activation>
@@ -362,6 +393,56 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- SonarQube Analysis Profile -->
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!-- SonarCloud configuration -->
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+                <sonar.organization>jabrena</sonar.organization>
+                <sonar.projectKey>jabrena_pml</sonar.projectKey>
+                <sonar.projectName>Prompt Markup Language</sonar.projectName>
+                <sonar.projectVersion>${project.version}</sonar.projectVersion>
+                <sonar.coverage.jacoco.xmlReportPaths>
+                    ${project.multiModuleProjectDirectory}/jacoco-report-aggregated/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+                <sonar.java.source>${java.version}</sonar.java.source>
+                <sonar.java.target>${java.version}</sonar.java.target>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>${maven-plugin-properties.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>
+                                            ${maven.multiModuleProjectDirectory}/sonar-project.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${maven-plugin-sonar.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
 </project>

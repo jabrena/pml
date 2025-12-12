@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="1.0"
+                xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+                xmlns:xi="http://www.w3.org/2001/XInclude">
+    <xsl:output method="text" encoding="UTF-8"/>
+    <xsl:strip-space elements="prompt metadata tags example code-examples good-example bad-example output-format instructions steps step"/>
+
+    <xsl:template match="/prompt">
+        <!-- Common frontmatter and header - only if metadata exists -->
+        <xsl:if test="metadata and (normalize-space(metadata/author) or normalize-space(metadata/version))">
+            <xsl:text>---</xsl:text>
+            <xsl:if test="normalize-space(metadata/author)">
+                <xsl:text>
+author: </xsl:text><xsl:value-of select="normalize-space(metadata/author)"/>
+            </xsl:if>
+            <xsl:if test="normalize-space(metadata/version)">
+                <xsl:text>
+version: </xsl:text><xsl:value-of select="normalize-space(metadata/version)"/>
+            </xsl:if>
+            <xsl:text>
+---
+</xsl:text>
+        </xsl:if>
+        <!-- Handle title - either from metadata or root level -->
+        <xsl:if test="(metadata and normalize-space(metadata/title)) or normalize-space(title)">
+            <xsl:text># </xsl:text>
+            <xsl:choose>
+                <xsl:when test="metadata and normalize-space(metadata/title)">
+                    <xsl:value-of select="normalize-space(metadata/title)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="normalize-space(title)"/>
+                </xsl:otherwise>
+            </xsl:choose>
+            <xsl:text>
+
+</xsl:text>
+        </xsl:if>
+
+        <!-- Process role only if it has content -->
+        <xsl:if test="normalize-space(role)">
+            <xsl:text>## Role
+
+</xsl:text><xsl:value-of select="normalize-space(role)"/>
+        </xsl:if>
+        <!-- Process tone if present -->
+        <xsl:apply-templates select="tone"/>
+        <!-- Process goal (Instructions for AI) after role -->
+        <xsl:apply-templates select="goal"/>
+        <!-- Apply constraints template if present -->
+        <xsl:apply-templates select="constraints"/>
+        <!-- Process instructions if present -->
+        <xsl:apply-templates select="instructions"/>
+
+        <!-- Examples section with auto-generated table of contents -->
+        <xsl:if test="examples/toc[@auto-generate='true']">
+            <xsl:text>
+## Examples
+
+### Table of contents
+
+</xsl:text>
+            <xsl:for-each select="examples/example">
+                <xsl:text>- Example </xsl:text><xsl:value-of select="@number"/><xsl:text>: </xsl:text><xsl:value-of select="normalize-space(example-header/example-title)"/>
+                <xsl:text>
+</xsl:text>
+            </xsl:for-each>
+        </xsl:if>
+
+        <!-- Process all content sections (goal already processed above) -->
+        <xsl:apply-templates select="examples | steps | output-format | safeguards | acceptance-criteria"/>
+    </xsl:template>
+
+    <!-- Examples container template -->
+    <xsl:template match="examples">
+        <xsl:apply-templates select="example"/>
+    </xsl:template>
+
+    <!-- Example section template -->
+    <xsl:template match="example">
+        <xsl:text>
+### Example </xsl:text><xsl:value-of select="@number"/><xsl:text>: </xsl:text><xsl:value-of select="normalize-space(example-header/example-title)"/>
+        <xsl:text>
+
+Title: </xsl:text><xsl:value-of select="normalize-space(example-header/example-subtitle)"/>
+        <xsl:text>
+Description: </xsl:text>        <xsl:value-of select="normalize-space(example-description)"/>
+
+
+
+        <xsl:if test="code-examples/good-example">
+            <xsl:text>
+
+**Good example:**
+
+```</xsl:text>
+            <xsl:if test="code-examples/good-example/code-block/@language">
+                <xsl:value-of select="code-examples/good-example/code-block/@language"/>
+            </xsl:if>
+            <xsl:text>
+</xsl:text>
+            <xsl:call-template name="trim-code-block">
+                <xsl:with-param name="content" select="code-examples/good-example/code-block"/>
+            </xsl:call-template>
+            <xsl:text>
+```</xsl:text>
+            <xsl:if test="code-examples/good-example/@last-item = 'true'">
+                <xsl:text>
+</xsl:text>
+            </xsl:if>
+        </xsl:if>
+
+        <xsl:if test="code-examples/bad-example">
+            <xsl:text>
+
+**Bad example:**
+
+```</xsl:text>
+            <xsl:if test="code-examples/bad-example/code-block/@language">
+                <xsl:value-of select="code-examples/bad-example/code-block/@language"/>
+            </xsl:if>
+            <xsl:text>
+</xsl:text>
+            <xsl:call-template name="trim-code-block">
+                <xsl:with-param name="content" select="code-examples/bad-example/code-block"/>
+            </xsl:call-template>
+            <xsl:text>
+```</xsl:text>
+            <xsl:if test="code-examples/bad-example/@last-item = 'true'">
+                <xsl:text>
+</xsl:text>
+            </xsl:if>
+        </xsl:if>
+        <xsl:if test="position() != last()">
+            <xsl:text>
+</xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- Goal template - simple goal statement -->
+    <xsl:template match="goal">
+        <xsl:text>
+
+## Goal
+
+</xsl:text>
+        <xsl:call-template name="trim-goal-content">
+            <xsl:with-param name="content" select="."/>
+        </xsl:call-template>
+        <xsl:text>
+</xsl:text>
+    </xsl:template>
+
+    <!-- Tone template -->
+    <xsl:template match="tone">
+        <xsl:text>
+
+## Tone
+
+</xsl:text>
+        <xsl:value-of select="normalize-space(.)"/>
+    </xsl:template>
+
+    <!-- Instructions template -->
+    <xsl:template match="instructions">
+        <xsl:text>
+## Instructions
+
+</xsl:text>
+        <xsl:apply-templates select="steps"/>
+    </xsl:template>
+
+    <!-- Steps template -->
+    <xsl:template match="steps">
+        <!-- Add heading only if steps is not inside instructions -->
+        <xsl:if test="not(parent::instructions)">
+            <xsl:text>
+## Steps
+
+</xsl:text>
+        </xsl:if>
+        <xsl:apply-templates select="step"/>
+    </xsl:template>
+
+    <!-- Step template -->
+    <xsl:template match="step">
+        <xsl:text>### Step </xsl:text>
+        <xsl:if test="@number">
+            <xsl:value-of select="@number"/><xsl:text>: </xsl:text>
+        </xsl:if>
+        <xsl:value-of select="normalize-space(step-title)"/>
+        <xsl:text>
+
+</xsl:text>
+        <xsl:call-template name="trim-step-content">
+            <xsl:with-param name="content" select="step-content"/>
+        </xsl:call-template>
+        <!-- Process step constraints if present -->
+        <xsl:if test="step-constraints">
+            <xsl:text>
+#### Step Constraints
+
+</xsl:text>
+            <xsl:for-each select="step-constraints/step-constraint-list/step-constraint">
+                <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+                <xsl:text>
+</xsl:text>
+            </xsl:for-each>
+            <xsl:text>
+</xsl:text>
+        </xsl:if>
+    </xsl:template>
+
+    <!-- XInclude template - processes included content -->
+    <!-- Note: XInclude processing happens at DOM level before XSLT, so this template -->
+    <!-- handles the case where XInclude has already been processed and content is embedded -->
+    <xsl:template match="xi:include">
+        <xsl:choose>
+            <xsl:when test="@parse='text'">
+                <!-- For text includes, output the content with preserved indentation -->
+                <xsl:call-template name="preserve-indentation">
+                    <xsl:with-param name="content" select="."/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- For XML includes, process normally -->
+                <xsl:apply-templates/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Output format section template -->
+    <xsl:template match="output-format">
+        <xsl:text>
+## Output Format
+
+</xsl:text>
+        <xsl:choose>
+            <!-- If structured list format exists, use it -->
+            <xsl:when test="output-format-list">
+                <xsl:for-each select="output-format-list/output-format-item">
+                    <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+                    <xsl:text>
+</xsl:text>
+                </xsl:for-each>
+            </xsl:when>
+            <!-- Otherwise, use simple text content -->
+            <xsl:otherwise>
+                <xsl:value-of select="normalize-space(text())"/>
+                <xsl:text>
+</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Safeguards section template -->
+    <xsl:template match="safeguards">
+        <xsl:text>
+## Safeguards
+
+</xsl:text>
+        <xsl:choose>
+            <!-- If structured list format exists, use it -->
+            <xsl:when test="safeguards-list">
+                <xsl:for-each select="safeguards-list/safeguards-item">
+                    <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+                    <xsl:text>
+</xsl:text>
+                </xsl:for-each>
+            </xsl:when>
+            <!-- Otherwise, use simple text content -->
+            <xsl:otherwise>
+                <xsl:value-of select="normalize-space(text())"/>
+                <xsl:text>
+</xsl:text>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Acceptance criteria section template -->
+    <xsl:template match="acceptance-criteria">
+        <xsl:text>
+## Acceptance Criteria
+
+</xsl:text>
+        <xsl:text>The goal will be achieved if the following criteria are met:
+
+</xsl:text>
+        <xsl:for-each select="acceptance-criteria-list/acceptance-criteria-item">
+            <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+            <xsl:text>
+</xsl:text>
+        </xsl:for-each>
+    </xsl:template>
+
+    <!-- Constraints template -->
+    <xsl:template match="constraints">
+        <xsl:text>
+## Constraints
+
+</xsl:text>
+        <xsl:if test="constraints-description">
+            <xsl:value-of select="normalize-space(constraints-description)"/>
+            <xsl:text>
+
+</xsl:text>
+        </xsl:if>
+        <xsl:for-each select="constraint-list/constraint">
+            <xsl:text>- </xsl:text><xsl:value-of select="normalize-space(.)"/>
+            <xsl:text>
+</xsl:text>
+        </xsl:for-each>
+    </xsl:template>
+
+    <!-- Code block trimming utilities (reused from maven-best-practices-generator) -->
+    <xsl:template name="trim-code-block">
+        <xsl:param name="content"/>
+        <xsl:variable name="trimmed-start">
+            <xsl:choose>
+                <xsl:when test="starts-with($content, '&#10;')">
+                    <xsl:value-of select="substring($content, 2)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$content"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="trimmed-both">
+            <xsl:choose>
+                <xsl:when test="substring($trimmed-start, string-length($trimmed-start)) = '&#10;'">
+                    <xsl:value-of select="substring($trimmed-start, 1, string-length($trimmed-start) - 1)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$trimmed-start"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:call-template name="remove-trailing-spaces">
+            <xsl:with-param name="text" select="$trimmed-both"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <xsl:template name="remove-trailing-spaces">
+        <xsl:param name="text"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, '&#10;')">
+                <xsl:variable name="line" select="substring-before($text, '&#10;')"/>
+                <xsl:variable name="rest" select="substring-after($text, '&#10;')"/>
+                <xsl:call-template name="rtrim">
+                    <xsl:with-param name="string" select="$line"/>
+                </xsl:call-template>
+                <xsl:text>&#10;</xsl:text>
+                <xsl:call-template name="remove-trailing-spaces">
+                    <xsl:with-param name="text" select="$rest"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="rtrim">
+                    <xsl:with-param name="string" select="$text"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <xsl:template name="rtrim">
+        <xsl:param name="string"/>
+        <xsl:choose>
+            <xsl:when test="substring($string, string-length($string)) = ' '">
+                <xsl:call-template name="rtrim">
+                    <xsl:with-param name="string" select="substring($string, 1, string-length($string) - 1)"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$string"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Template to trim goal content while preserving paragraph structure -->
+    <xsl:template name="trim-goal-content">
+        <xsl:param name="content"/>
+        <xsl:variable name="trimmed-start">
+            <xsl:choose>
+                <xsl:when test="starts-with($content, '&#10;')">
+                    <xsl:value-of select="substring($content, 2)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$content"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="trimmed-both">
+            <xsl:choose>
+                <xsl:when test="substring($trimmed-start, string-length($trimmed-start)) = '&#10;'">
+                    <xsl:value-of select="substring($trimmed-start, 1, string-length($trimmed-start) - 1)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$trimmed-start"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:call-template name="remove-goal-indentation">
+            <xsl:with-param name="text" select="$trimmed-both"/>
+        </xsl:call-template>
+    </xsl:template>
+
+    <!-- Template to trim step content while preserving paragraph structure -->
+    <xsl:template name="trim-step-content">
+        <xsl:param name="content"/>
+        <!-- Convert node to string explicitly to ensure we get all text content -->
+        <xsl:variable name="content-string" select="string($content)"/>
+        <xsl:variable name="trimmed-start">
+            <xsl:choose>
+                <xsl:when test="starts-with($content-string, '&#10;')">
+                    <xsl:value-of select="substring($content-string, 2)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$content-string"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="trimmed-both">
+            <xsl:choose>
+                <xsl:when test="substring($trimmed-start, string-length($trimmed-start)) = '&#10;'">
+                    <xsl:value-of select="substring($trimmed-start, 1, string-length($trimmed-start) - 1)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$trimmed-start"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- Check if content contains code blocks that need indentation preserved -->
+        <xsl:choose>
+            <xsl:when test="contains($trimmed-both, '```bash') or contains($trimmed-both, '```xml') or contains($trimmed-both, '```java') or contains($trimmed-both, '```txt') or contains($trimmed-both, '```')">
+                <!-- For code blocks (bash, xml, java, txt, or any other), preserve all indentation by only trimming leading/trailing newlines -->
+                <xsl:call-template name="preserve-indentation">
+                    <xsl:with-param name="content" select="$trimmed-both"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <!-- For regular content, remove indentation -->
+                <xsl:call-template name="remove-goal-indentation">
+                    <xsl:with-param name="text" select="$trimmed-both"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Remove leading spaces from each line while preserving paragraph structure -->
+    <xsl:template name="remove-goal-indentation">
+        <xsl:param name="text"/>
+        <xsl:choose>
+            <xsl:when test="contains($text, '&#10;')">
+                <xsl:variable name="line" select="substring-before($text, '&#10;')"/>
+                <xsl:variable name="rest" select="substring-after($text, '&#10;')"/>
+                <xsl:call-template name="ltrim">
+                    <xsl:with-param name="string" select="$line"/>
+                </xsl:call-template>
+                <xsl:text>&#10;</xsl:text>
+                <xsl:call-template name="remove-goal-indentation">
+                    <xsl:with-param name="text" select="$rest"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:call-template name="ltrim">
+                    <xsl:with-param name="string" select="$text"/>
+                </xsl:call-template>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Left trim (remove leading spaces) -->
+    <xsl:template name="ltrim">
+        <xsl:param name="string"/>
+        <xsl:choose>
+            <xsl:when test="substring($string, 1, 1) = ' '">
+                <xsl:call-template name="ltrim">
+                    <xsl:with-param name="string" select="substring($string, 2)"/>
+                </xsl:call-template>
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="$string"/>
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+
+    <!-- Template to preserve indentation for included text files -->
+    <xsl:template name="preserve-indentation">
+        <xsl:param name="content"/>
+        <xsl:variable name="trimmed-start">
+            <xsl:choose>
+                <xsl:when test="starts-with($content, '&#10;')">
+                    <xsl:value-of select="substring($content, 2)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$content"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <xsl:variable name="trimmed-both">
+            <xsl:choose>
+                <xsl:when test="substring($trimmed-start, string-length($trimmed-start)) = '&#10;'">
+                    <xsl:value-of select="substring($trimmed-start, 1, string-length($trimmed-start) - 1)"/>
+                </xsl:when>
+                <xsl:otherwise>
+                    <xsl:value-of select="$trimmed-start"/>
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+        <!-- Output the content with preserved indentation - only trim leading/trailing newlines -->
+        <xsl:value-of select="$trimmed-both"/>
+    </xsl:template>
+</xsl:stylesheet>

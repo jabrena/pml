@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+    <title>Test Title</title>
+    <role>Test Role</role>
+    <goal>
+        Create a java class that prints
+        "MESSAGE" in the console
+    </goal>
+</prompt>
