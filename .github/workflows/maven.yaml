@@ -23,7 +23,93 @@ jobs:
 
       - name: E2E Test
         run: |
-          java -jar cli/target/pml-to-md-${{ steps.get_version.outputs.VERSION }}.jar --help
+          JAR="cli/target/pml-to-md-${{ steps.get_version.outputs.VERSION }}.jar"
+
+          echo "=== Test 1: Main command help ==="
+          java -jar "$JAR" --help
+
+          echo "=== Test 2: Convert command help ==="
+          java -jar "$JAR" convert --help
+
+          echo "=== Test 3: Validate command help ==="
+          java -jar "$JAR" validate --help
+
+          echo "=== Test 4: Convert valid PML file ==="
+          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-hello-world.xml > /tmp/output.md
+          if [ ! -s /tmp/output.md ]; then
+            echo "ERROR: Convert command produced empty output"
+            exit 1
+          fi
+          echo "✓ Convert command succeeded"
+
+          echo "=== Test 5: Convert with template replacement ==="
+          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-hello-world.xml --template goal "Updated goal text" > /tmp/output-template.md
+          if ! grep -q "Updated goal text" /tmp/output-template.md; then
+            echo "ERROR: Template replacement did not work"
+            exit 1
+          fi
+          echo "✓ Template replacement succeeded"
+
+          echo "=== Test 6: Convert with multiple template replacements ==="
+          java -jar "$JAR" convert --file cli/src/test/resources/pml/pml-with-multiple-fields.xml \
+            --template title "New Title" \
+            --template role "New Role" \
+            --template goal "New Goal" > /tmp/output-multiple.md
+          if ! grep -q "New Title" /tmp/output-multiple.md || ! grep -q "New Role" /tmp/output-multiple.md || ! grep -q "New Goal" /tmp/output-multiple.md; then
+            echo "ERROR: Multiple template replacements did not work"
+            exit 1
+          fi
+          echo "✓ Multiple template replacements succeeded"
+
+          echo "=== Test 7: Validate valid PML file ==="
+          java -jar "$JAR" validate --file cli/src/test/resources/pml/pml-hello-world.xml
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Validation of valid file failed"
+            exit 1
+          fi
+          echo "✓ Validation of valid file succeeded"
+
+          echo "=== Test 8: Validate invalid PML file (should fail) ==="
+          java -jar "$JAR" validate --file cli/src/test/resources/pml/invalid-pml.xml
+          if [ $? -eq 0 ]; then
+            echo "ERROR: Validation of invalid file should have failed"
+            exit 1
+          fi
+          echo "✓ Validation correctly rejected invalid file"
+
+          echo "=== Test 9: Convert with missing file (should fail) ==="
+          java -jar "$JAR" convert --file /nonexistent/file.xml 2>&1 | grep -q "File not found"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Convert command should report file not found"
+            exit 1
+          fi
+          echo "✓ Convert command correctly reported missing file"
+
+          echo "=== Test 10: Validate with missing file (should fail) ==="
+          java -jar "$JAR" validate --file /nonexistent/file.xml 2>&1 | grep -q "File not found"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Validate command should report file not found"
+            exit 1
+          fi
+          echo "✓ Validate command correctly reported missing file"
+
+          echo "=== Test 11: Convert without required --file option (should fail) ==="
+          java -jar "$JAR" convert 2>&1 | grep -q "required"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Convert command should require --file option"
+            exit 1
+          fi
+          echo "✓ Convert command correctly requires --file option"
+
+          echo "=== Test 12: Validate without required --file option (should fail) ==="
+          java -jar "$JAR" validate 2>&1 | grep -q "required"
+          if [ $? -ne 0 ]; then
+            echo "ERROR: Validate command should require --file option"
+            exit 1
+          fi
+          echo "✓ Validate command correctly requires --file option"
+
+          echo "=== All E2E tests passed! ==="
 
       - name: Upload jar
         uses: actions/upload-artifact@v5
