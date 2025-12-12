@@ -21,7 +21,7 @@ jobs:
         id: get_version
         run: echo "VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
-      - name: E2E Test
+      - name: E2E Tests
         run: |
           JAR="cli/target/pml-to-md-${{ steps.get_version.outputs.VERSION }}.jar"
 
@@ -85,41 +85,70 @@ jobs:
           echo "✓ Validation of valid file succeeded"
 
           echo "=== Test 8: Validate invalid PML file (should fail) ==="
-          java -jar "$JAR" validate --file cli/src/test/resources/pml/invalid-pml.xml
-          if [ $? -eq 0 ]; then
+          java -jar "$JAR" validate --file cli/src/test/resources/pml/invalid-pml.xml 2>&1 | tee /tmp/validate-error.log > /dev/null
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
             echo "ERROR: Validation of invalid file should have failed"
+            exit 1
+          fi
+          if ! grep -q "Validation failed" /tmp/validate-error.log; then
+            echo "ERROR: Validation should report 'Validation failed' message"
             exit 1
           fi
           echo "✓ Validation correctly rejected invalid file"
 
           echo "=== Test 9: Convert with missing file (should fail) ==="
+          java -jar "$JAR" convert --file /nonexistent/file.xml > /dev/null 2>&1
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "ERROR: Convert command should fail for missing file"
+            exit 1
+          fi
           java -jar "$JAR" convert --file /nonexistent/file.xml 2>&1 | grep -q "File not found"
           if [ $? -ne 0 ]; then
-            echo "ERROR: Convert command should report file not found"
+            echo "ERROR: Convert command should report 'File not found'"
             exit 1
           fi
           echo "✓ Convert command correctly reported missing file"
 
           echo "=== Test 10: Validate with missing file (should fail) ==="
+          java -jar "$JAR" validate --file /nonexistent/file.xml > /dev/null 2>&1
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "ERROR: Validate command should fail for missing file"
+            exit 1
+          fi
           java -jar "$JAR" validate --file /nonexistent/file.xml 2>&1 | grep -q "File not found"
           if [ $? -ne 0 ]; then
-            echo "ERROR: Validate command should report file not found"
+            echo "ERROR: Validate command should report 'File not found'"
             exit 1
           fi
           echo "✓ Validate command correctly reported missing file"
 
           echo "=== Test 11: Convert without required --file option (should fail) ==="
+          java -jar "$JAR" convert > /dev/null 2>&1
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "ERROR: Convert command should fail without --file option"
+            exit 1
+          fi
           java -jar "$JAR" convert 2>&1 | grep -q "required"
           if [ $? -ne 0 ]; then
-            echo "ERROR: Convert command should require --file option"
+            echo "ERROR: Convert command should report 'required' option"
             exit 1
           fi
           echo "✓ Convert command correctly requires --file option"
 
           echo "=== Test 12: Validate without required --file option (should fail) ==="
+          java -jar "$JAR" validate > /dev/null 2>&1
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "ERROR: Validate command should fail without --file option"
+            exit 1
+          fi
           java -jar "$JAR" validate 2>&1 | grep -q "required"
           if [ $? -ne 0 ]; then
-            echo "ERROR: Validate command should require --file option"
+            echo "ERROR: Validate command should report 'required' option"
             exit 1
           fi
           echo "✓ Validate command correctly requires --file option"
