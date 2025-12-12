@@ -5,6 +5,7 @@ target/
 .cursor/
 .flattened-pom.xml
 dependency-reduced-pom.xml
+effective-pom.xml
 *.log
 .classpath
 
