@@ -43,6 +43,8 @@
         <maven-plugin-jacoco.version>0.8.14</maven-plugin-jacoco.version>
         <maven-plugin-dependency.version>3.9.0</maven-plugin-dependency.version>
         <maven-plugin-shade.version>3.6.1</maven-plugin-shade.version>
+        <maven-plugin-properties.version>1.0.0</maven-plugin-properties.version>
+        <maven-plugin-sonar.version>4.5.0.3513</maven-plugin-sonar.version>
 
         <coverage.level>20</coverage.level>
     </properties>
@@ -106,6 +108,7 @@
         <module>schema</module>
         <module>types</module>
         <module>cli</module>
+        <module>jacoco-report-aggregated</module>
     </modules>
 
     <build>
@@ -177,7 +180,6 @@
                         <id>enforce</id>
                         <configuration>
                             <rules>
-                                <banCircularDependencies />
                                 <dependencyConvergence />
                                 <banDuplicatePomDependencyVersions />
                                 <requireMavenVersion>
@@ -191,6 +193,19 @@
                                         <exclude>org.projectlombok:lombok</exclude>
                                     </excludes>
                                 </bannedDependencies>
+                            </rules>
+                            <fail>true</fail>
+                        </configuration>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>enforce-circular-dependencies</id>
+                        <phase>compile</phase>
+                        <configuration>
+                            <rules>
+                                <banCircularDependencies />
                             </rules>
                             <fail>true</fail>
                         </configuration>
@@ -330,6 +345,7 @@
                 </plugins>
             </build>
         </profile>
+
         <profile>
             <id>promote</id>
             <activation>
@@ -365,6 +381,55 @@
                 </plugins>
             </build>
         </profile>
+
+        <!-- SonarQube Analysis Profile -->
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <!-- SonarCloud configuration -->
+                <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+                <sonar.organization>jabrena</sonar.organization>
+                <sonar.projectKey>jabrena_prompt-markup-language</sonar.projectKey>
+                <sonar.projectName>Prompt Markup Language</sonar.projectName>
+                <sonar.projectVersion>${project.version}</sonar.projectVersion>
+                <sonar.coverage.jacoco.xmlReportPaths>
+                    ${project.multiModuleProjectDirectory}/jacoco-report-aggregated/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+                <sonar.java.source>${java.version}</sonar.java.source>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>properties-maven-plugin</artifactId>
+                        <version>${maven-plugin-properties.version}</version>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>read-project-properties</goal>
+                                </goals>
+                                <configuration>
+                                    <files>
+                                        <file>
+                                            ${maven.multiModuleProjectDirectory}/sonar-project.properties</file>
+                                    </files>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonarsource.scanner.maven</groupId>
+                        <artifactId>sonar-maven-plugin</artifactId>
+                        <version>${maven-plugin-sonar.version}</version>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
 </project>

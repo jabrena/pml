@@ -19,11 +19,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>info.jab.pml</groupId>
-            <artifactId>schema</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>info.picocli</groupId>
             <artifactId>picocli</artifactId>
             <version>${picocli.version}</version>
@@ -105,12 +100,6 @@
                                         <exclude>META-INF/*.DSA</exclude>
                                         <exclude>META-INF/*.RSA</exclude>
                                         <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                                <filter>
-                                    <artifact>info.jab.pml:schema</artifact>
-                                    <excludes>
-                                        <exclude>*.xsd</exclude>
                                     </excludes>
                                 </filter>
                             </filters>
