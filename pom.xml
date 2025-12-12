@@ -103,6 +103,7 @@
     <modules>
         <module>schema</module>
         <module>types</module>
+        <module>cli</module>
     </modules>
 
     <build>
