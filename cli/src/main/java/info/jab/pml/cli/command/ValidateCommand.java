@@ -1,15 +1,10 @@
 package info.jab.pml.cli.command;
 
-import java.io.InputStream;
+import info.jab.pml.cli.xml.PmlUtils;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.Callable;
-import javax.xml.XMLConstants;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Parameters;
 
@@ -20,11 +15,27 @@ import picocli.CommandLine.Parameters;
     usageHelpAutoWidth = true)
 public class ValidateCommand implements Callable<Integer> {
 
-    private static final String PML_XSD_SCHEMA = "pml.xsd";
+    private final PmlUtils pmlUtils;
 
     @Parameters(index = "0", description = "Path to the PML file to validate")
     @SuppressWarnings("NullAway.Init")
     private String filePath;
+
+    /**
+     * Default constructor for normal usage.
+     */
+    public ValidateCommand() {
+        this(new PmlUtils());
+    }
+
+    /**
+     * Constructor for testing purposes, allowing injection of a PmlUtils.
+     *
+     * @param pmlUtils the utils instance to use
+     */
+    public ValidateCommand(PmlUtils pmlUtils) {
+        this.pmlUtils = pmlUtils;
+    }
 
     @Override
     public Integer call() {
@@ -34,34 +45,10 @@ public class ValidateCommand implements Callable<Integer> {
             return 1;
         }
 
-        if (validatePmlFile(pmlFile)) {
+        if (pmlUtils.validate(pmlFile)) {
             return 0;
         } else {
             return 1;
-        }
-    }
-
-    private boolean validatePmlFile(Path pmlFile) {
-        try {
-            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
-            // Load pml.xsd from resources (copied from schema module)
-            InputStream pmlXsdStream = getClass().getClassLoader()
-                .getResourceAsStream(PML_XSD_SCHEMA);
-
-            if (pmlXsdStream == null) {
-                System.err.println("Error: Could not find " + PML_XSD_SCHEMA + " schema file in resources");
-                return false;
-            }
-
-            Schema schema = schemaFactory.newSchema(new StreamSource(pmlXsdStream, PML_XSD_SCHEMA));
-            Validator validator = schema.newValidator();
-            validator.validate(new StreamSource(pmlFile.toFile()));
-            return true;
-        } catch (Exception e) {
-            System.err.println("Validation failed: " + e.getMessage());
-            e.printStackTrace();
-            return false;
         }
     }
 }

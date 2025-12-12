@@ -1,8 +1,6 @@
 package info.jab.pml.cli.command;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
+import info.jab.pml.cli.xml.PmlUtils;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,18 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import org.jspecify.annotations.Nullable;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
@@ -35,12 +22,30 @@ import picocli.CommandLine.Parameters;
     usageHelpAutoWidth = true)
 public class ConvertCommand implements Callable<Integer> {
 
+    private final PmlUtils pmlUtils;
+
     @Parameters(index = "0", description = "Path to the PML file to convert")
     @SuppressWarnings("NullAway.Init")
     private String filePath;
 
     @Option(names = "--template", arity = "2..*", description = "Template replacement: FIELD VALUE [FIELD VALUE ...] (e.g., --template goal \"New goal\" role \"assistant\")")
     private @Nullable List<String> templatePairs = new ArrayList<>();
+
+    /**
+     * Default constructor for normal usage.
+     */
+    public ConvertCommand() {
+        this(new PmlUtils());
+    }
+
+    /**
+     * Constructor for testing purposes, allowing injection of a PmlUtils.
+     *
+     * @param pmlUtils the utils instance to use
+     */
+    public ConvertCommand(PmlUtils pmlUtils) {
+        this.pmlUtils = pmlUtils;
+    }
 
     @Override
     public Integer call() throws Exception {
@@ -51,6 +56,9 @@ public class ConvertCommand implements Callable<Integer> {
                 return 1;
             }
 
+            // Read PML file into string
+            String pmlContent = Files.readString(pmlFile, StandardCharsets.UTF_8);
+
             // Parse template pairs into a map
             Map<String, String> templateMap = parseTemplatePairs();
             if (templateMap == null) {
@@ -58,48 +66,26 @@ public class ConvertCommand implements Callable<Integer> {
                 return 1;
             }
 
-            if (convertPmlToMarkdown(pmlFile, templateMap)) {
+            // Apply template replacements if templates are provided
+            String processedPml = pmlUtils.applyTemplates(pmlContent, templateMap);
+
+            // Validate the processed XML string
+            if (!pmlUtils.validate(processedPml)) {
+                System.err.println("Error: The processed PML file is not valid");
+                return 1;
+            }
+
+            // Convert to Markdown
+            if (pmlUtils.convertToMarkdown(processedPml, System.out)) {
                 return 0;
             } else {
+                System.err.println("Error: Conversion failed");
                 return 1;
             }
         } catch (Exception e) {
             System.err.println("Conversion failed: " + e.getMessage());
             e.printStackTrace();
             return 1;
-        }
-    }
-
-    private boolean convertPmlToMarkdown(Path pmlFile, Map<String, String> templateMap) {
-        try {
-            // Read and process PML file
-            String pmlContent = Files.readString(pmlFile, StandardCharsets.UTF_8);
-            String processedPml = applyTemplates(pmlContent, templateMap);
-
-            // Load XSLT from resources
-            InputStream xsltStream = getClass().getClassLoader()
-                .getResourceAsStream("xslt/pml-to-md.xsl");
-
-            if (xsltStream == null) {
-                System.err.println("Error: Could not find pml-to-md.xsl transformation file");
-                return false;
-            }
-
-            // Create transformer
-            TransformerFactory factory = TransformerFactory.newInstance();
-            Transformer transformer = factory.newTransformer(new StreamSource(xsltStream));
-
-            // Transform PML to Markdown and output to stdout (not a file)
-            StreamSource xmlSource = new StreamSource(
-                new ByteArrayInputStream(processedPml.getBytes(StandardCharsets.UTF_8)));
-            StreamResult result = new StreamResult(System.out);
-            transformer.transform(xmlSource, result);
-
-            return true;
-        } catch (Exception e) {
-            System.err.println("Conversion failed: " + e.getMessage());
-            e.printStackTrace();
-            return false;
         }
     }
 
@@ -122,61 +108,5 @@ public class ConvertCommand implements Callable<Integer> {
         }
 
         return templateMap;
-    }
-
-    private String applyTemplates(String pmlContent, Map<String, String> templateMap) throws Exception {
-        if (templateMap.isEmpty()) {
-            return pmlContent;
-        }
-
-        // Parse XML
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        factory.setNamespaceAware(true);
-        DocumentBuilder builder = factory.newDocumentBuilder();
-        Document doc = builder.parse(new ByteArrayInputStream(pmlContent.getBytes(StandardCharsets.UTF_8)));
-
-        // Apply template replacements
-        Element root = doc.getDocumentElement();
-        for (Map.Entry<String, String> entry : templateMap.entrySet()) {
-            String fieldName = entry.getKey();
-            String fieldValue = entry.getValue();
-            replaceFieldValue(root, fieldName, fieldValue);
-        }
-
-        // Convert back to string
-        TransformerFactory transformerFactory = TransformerFactory.newInstance();
-        Transformer transformer = transformerFactory.newTransformer();
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        transformer.transform(new DOMSource(doc), new StreamResult(outputStream));
-        return outputStream.toString(StandardCharsets.UTF_8);
-    }
-
-    private void replaceFieldValue(Element element, String fieldName, String newValue) {
-        // If field is not found, skip it (no error thrown)
-        NodeList children = element.getChildNodes();
-        for (int i = 0; i < children.getLength(); i++) {
-            Node node = children.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element childElement = (Element) node;
-                String tagName = childElement.getTagName();
-
-                // Check if this is the field we're looking for
-                if (fieldName.equals(tagName)) {
-                    // Replace all content (both text nodes and child elements)
-                    NodeList contentNodes = childElement.getChildNodes();
-                    // Remove all child nodes (both elements and text)
-                    for (int j = contentNodes.getLength() - 1; j >= 0; j--) {
-                        Node contentNode = contentNodes.item(j);
-                        childElement.removeChild(contentNode);
-                    }
-                    // Add new text content
-                    childElement.appendChild(element.getOwnerDocument().createTextNode(newValue));
-                } else {
-                    // Recursively search in nested elements (field not found yet, continue searching)
-                    replaceFieldValue(childElement, fieldName, newValue);
-                }
-            }
-        }
-        // If field is never found, it's silently skipped (no exception thrown)
     }
 }
