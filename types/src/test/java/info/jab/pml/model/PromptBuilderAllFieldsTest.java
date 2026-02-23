@@ -13,7 +13,7 @@ class PromptBuilderAllFieldsTest {
 
         Metadata metadata = new Metadata();
         Constraints constraints = new Constraints();
-        Instructions instructions = new Instructions();
+        Steps steps = new Steps();
         Examples examples = new Examples();
         OutputFormat outputFormat = new OutputFormat();
         Safeguards safeguards = new Safeguards();
@@ -25,7 +25,7 @@ class PromptBuilderAllFieldsTest {
             .withTone("formal")
             .withContext("context")
             .withConstraints(constraints)
-            .withInstructions(instructions)
+            .withSteps(steps)
             .withExamples(examples)
             .withOutputFormat(outputFormat)
             .withSafeguards(safeguards)
@@ -38,7 +38,7 @@ class PromptBuilderAllFieldsTest {
 
         assertThat(prompt.getMetadata()).isSameAs(metadata);
         assertThat(prompt.getConstraints()).isSameAs(constraints);
-        assertThat(prompt.getInstructions()).isSameAs(instructions);
+        assertThat(prompt.getSteps()).isSameAs(steps);
         assertThat(prompt.getExamples()).isSameAs(examples);
         assertThat(prompt.getOutputFormat()).isSameAs(outputFormat);
         assertThat(prompt.getSafeguards()).isSameAs(safeguards);

@@ -13,7 +13,7 @@ public final class PromptBuilder {
     private String context;
     private Goal goal;
     private Constraints constraints;
-    private Instructions instructions;
+    private Steps steps;
     private Examples examples;
     private OutputFormat outputFormat;
     private Safeguards safeguards;
@@ -54,8 +54,8 @@ public final class PromptBuilder {
         return this;
     }
 
-    public PromptBuilder withInstructions(Instructions instructions) {
-        this.instructions = instructions;
+    public PromptBuilder withSteps(Steps steps) {
+        this.steps = steps;
         return this;
     }
 
@@ -97,7 +97,7 @@ public final class PromptBuilder {
         prompt.setContext(context);
         prompt.setGoal(goal);
         prompt.setConstraints(constraints);
-        prompt.setInstructions(instructions);
+        prompt.setSteps(steps);
         prompt.setExamples(examples);
         prompt.setOutputFormat(outputFormat);
         prompt.setSafeguards(safeguards);

@@ -6,7 +6,7 @@
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.0</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
@@ -382,7 +382,7 @@
                                         <resource>
                                             <directory>schema/src/main/resources</directory>
                                             <includes>
-                                                <include>pml.xsd</include>
+                                                <include>*.xsd</include>
                                             </includes>
                                         </resource>
                                     </resources>

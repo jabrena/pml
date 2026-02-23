@@ -13,7 +13,6 @@
                 <xs:element ref="context" minOccurs="0"/>
                 <xs:element ref="goal"/>
                 <xs:element ref="constraints" minOccurs="0"/>
-                <xs:element ref="instructions" minOccurs="0"/><!-- TODO: To be deprecated in the next releases (29/10/2025) -->
                 <xs:element ref="steps" minOccurs="0" />
                 <xs:element ref="examples" minOccurs="0"/>
                 <xs:element ref="output-format" minOccurs="0"/>
@@ -32,12 +31,14 @@
                 <xs:element ref="author" minOccurs="0"/>
                 <xs:element ref="version" minOccurs="0"/>
                 <xs:element ref="title" minOccurs="0"/>
+                <xs:element ref="description" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="author" type="xs:string"/>
     <xs:element name="version" type="xs:string"/>
+    <xs:element name="description" type="xs:string"/>
 
     <!-- Context information -->
     <xs:element name="context" type="xs:string"/>
@@ -53,15 +54,6 @@
         <xs:complexType mixed="true">
             <xs:sequence>
                 <xs:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
-            </xs:sequence>
-        </xs:complexType>
-    </xs:element>
-
-    <!-- Instructions section -->
-    <xs:element name="instructions">
-        <xs:complexType>
-            <xs:sequence>
-                <xs:element ref="steps"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

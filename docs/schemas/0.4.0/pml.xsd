@@ -32,12 +32,14 @@
                 <xs:element ref="author" minOccurs="0"/>
                 <xs:element ref="version" minOccurs="0"/>
                 <xs:element ref="title" minOccurs="0"/>
+                <xs:element ref="description" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
     <xs:element name="author" type="xs:string"/>
     <xs:element name="version" type="xs:string"/>
+    <xs:element name="description" type="xs:string"/>
 
     <!-- Context information -->
     <xs:element name="context" type="xs:string"/>
