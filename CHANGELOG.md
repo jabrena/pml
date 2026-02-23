@@ -5,11 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.0-SNAPSHOT] - Unreleased
+## [0.4.0] - 2025-02-23
 
 ### Added
 
-- PML CLI tool (`pml`) for command-line operations with PML files
+- PML CLI tool (`pml`) for command-line operations with PML files (validate and convert commands)
+- `description` field in metadata element for PML schema (#89) to support Skills
+
+### Removed
+
+- `instructions` element from PML schema (#89) — use `metadata/description` instead
 
 ## [0.3.0] - 2025-11-10
 
@@ -45,3 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Deprecated
 - `instructions` element in PML schema (marked for deprecation in future releases)
+
+[0.4.0]: https://github.com/jabrena/pml/compare/0.3.0...0.4.0
+[0.3.0]: https://github.com/jabrena/pml/compare/0.2.0...0.3.0
+[0.2.0]: https://github.com/jabrena/pml/compare/0.1.0...0.2.0

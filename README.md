@@ -23,7 +23,7 @@ Java software engineers use XML daily because `Maven` is based on XML and it has
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
@@ -144,7 +144,7 @@ In your prompts, you could have to include scripts like in this prompt:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0/pml.xsd">
+    xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.4.0/pml.xsd">
     <title>Install Java 25 in Cursor Cloud Agent</title>
 
     <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
@@ -223,7 +223,7 @@ Prompts can be defined in 3 different ways:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <pml-workflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.3.0-SNAPSHOT/pml-workflow.xsd">
+              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.4.0/pml-workflow.xsd">
     <parallel src="prompt-toc.xml" bindResultType="List_Integer">
         <sequence model="default" repository="https://github.com/jabrena/wjax25-demos">
             <prompt src="prompt2.xml" bindResultExp="$get()"/>
@@ -238,10 +238,10 @@ The repository provides a CLI tool to convert PML files into Markdown in an easy
 
 ```bash
 ./mvnw clean package
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar --help
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar validate cli/src/test/resources/pml/pml-hello-world.xml
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar convert cli/src/test/resources/pml/pml-hello-world-template.xml --template MESSAGE "Hello World"
-java -jar cli/target/pml-to-md-0.4.0-SNAPSHOT.jar convert cli/src/test/resources/pml/pml-hello-world-template-multiple.xml --template MESSAGE "Hello World" CHANNEL "Console"
+java -jar cli/target/pml-to-md-0.4.0.jar --help
+java -jar cli/target/pml-to-md-0.4.0.jar validate cli/src/test/resources/pml/pml-hello-world.xml
+java -jar cli/target/pml-to-md-0.4.0.jar convert cli/src/test/resources/pml/pml-hello-world-template.xml --template MESSAGE "Hello World"
+java -jar cli/target/pml-to-md-0.4.0.jar convert cli/src/test/resources/pml/pml-hello-world-template-multiple.xml --template MESSAGE "Hello World" CHANNEL "Console"
 ```
 
 ## Java Bindings
