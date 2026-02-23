@@ -17,7 +17,7 @@ Can you update the current changelog for 0.4.0 comparing git commits in relation
 - [ ] Review git changes for hidden issues (Manual) https://github.com/jabrena/pml/compare/0.2.0...0.3.0 https://github.com/jabrena/pml/compare/0.2.0...feature/release-030
 - [ ] Tag repository
 - [ ] Release Snapshot/Release
-- [ ] Update Jbang-catalog with new cli pml-to-md
+- [ ] Update Jbang-catalog with new cli pml-to-md, https://github.com/jabrena/jbang-catalog
 - [ ] Create article
 - [ ] Communicate in social media
 
