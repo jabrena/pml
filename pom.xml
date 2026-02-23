@@ -6,7 +6,7 @@
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.0</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
@@ -46,7 +46,7 @@
         <maven-plugin-dependency.version>3.9.0</maven-plugin-dependency.version>
         <maven-plugin-shade.version>3.6.1</maven-plugin-shade.version>
         <maven-plugin-properties.version>1.0.0</maven-plugin-properties.version>
-        <maven-plugin-sonar.version>4.5.0.3513</maven-plugin-sonar.version>
+        <maven-plugin-sonar.version>5.1.0.4751</maven-plugin-sonar.version>
 
         <coverage.level>15</coverage.level>
     </properties>
@@ -382,7 +382,7 @@
                                         <resource>
                                             <directory>schema/src/main/resources</directory>
                                             <includes>
-                                                <include>pml.xsd</include>
+                                                <include>*.xsd</include>
                                             </includes>
                                         </resource>
                                     </resources>

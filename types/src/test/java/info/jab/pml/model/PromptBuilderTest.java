@@ -32,7 +32,7 @@ class PromptBuilderTest {
         assertThat(prompt.getTone()).isNull();
         assertThat(prompt.getContext()).isNull();
         assertThat(prompt.getConstraints()).isNull();
-        assertThat(prompt.getInstructions()).isNull();
+        assertThat(prompt.getSteps()).isNull();
         assertThat(prompt.getExamples()).isNull();
         assertThat(prompt.getOutputFormat()).isNull();
         assertThat(prompt.getSafeguards()).isNull();
