@@ -68,7 +68,7 @@
                                 <resource>
                                     <directory>../schema/src/main/resources</directory>
                                     <includes>
-                                        <include>*.xsd</include>
+                                        <include>pml.xsd</include>
                                     </includes>
                                 </resource>
                             </resources>
