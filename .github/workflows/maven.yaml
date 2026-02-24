@@ -17,7 +17,7 @@ jobs:
       - name: Maven build
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw --batch-mode --no-transfer-progress test verify site properties:read-project-properties sonar:sonar -Pjacoco -Psonar --file pom.xml
+        run: ./mvnw --batch-mode --no-transfer-progress test verify site properties:read-project-properties -Pjacoco -file pom.xml
 
       - name: Get Maven project version
         id: get_version
