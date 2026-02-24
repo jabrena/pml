@@ -30,7 +30,7 @@
         <maven-plugin-surefire.version>3.5.4</maven-plugin-surefire.version>
         <maven-plugin-enforcer.version>3.6.2</maven-plugin-enforcer.version>
         <maven-plugin-spotless.version>3.1.0</maven-plugin-spotless.version>
-        <maven-plugin-versions.version>2.20.1</maven-plugin-versions.version>
+        <maven-plugin-versions.version>2.21.0</maven-plugin-versions.version>
         <extra-enforcer-rules.version>1.11.0</extra-enforcer-rules.version>
         <jspecify.version>1.0.0</jspecify.version>
         <error-prone.version>2.45.0</error-prone.version>
