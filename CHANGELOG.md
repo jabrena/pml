@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2025-03-18
+
+### Added
+
+- `id` attribute on prompt element in PML schema for uniquely identifying prompts
+
 ## [0.6.0] - 2025-03-18
 
 ### Added
@@ -66,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 - `instructions` element in PML schema (marked for deprecation in future releases)
 
+[0.7.0]: https://github.com/jabrena/pml/compare/0.6.0...0.7.0
 [0.6.0]: https://github.com/jabrena/pml/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/jabrena/pml/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/jabrena/pml/compare/0.3.0...0.4.0
