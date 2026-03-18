@@ -14,21 +14,18 @@ Can you update the current changelog for 0.5.0 comparing git commits in relation
 - [ ] Last review in docs (Manual)
 - [ ] Remove SNAPSHOT from pom.xml
 - [ ] Update website /docs/index.html
-- [ ] Review git changes for hidden issues (Manual) https://github.com/jabrena/pml/compare/0.2.0...0.3.0 https://github.com/jabrena/pml/compare/0.2.0...feature/release-030
-
+- [ ] Review git changes for hidden issues (Manual) https://github.com/jabrena/pml/compare/0.6.0...0.7.0 https://github.com/jabrena/pml/compare/0.6.0...feature/release-070
 - [ ] Tag repository
 - [ ] Release Snapshot/Release
 - [ ] Update Jbang-catalog with new cli pml-to-md, https://github.com/jabrena/jbang-catalog
-- [ ] Create article
-- [ ] Communicate in social media
 
 ---
 
 ```bash
 # Prompt to provide a release changelog
-Can you update the current changelog for 0.4.0-SNAPSHOT comparing git commits in relation to 0.6.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
+Can you update the current changelog for 0.7.0 comparing git commits in relation to 0.6.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
 
-./mvnw versions:set -DnewVersion=0.6.0
+./mvnw versions:set -DnewVersion=0.7.0
 ./mvnw versions:commit
 ## Note: Refactor a bit more to include all pom.xml
 ./mvnw clean verify
@@ -36,7 +33,7 @@ Can you update the current changelog for 0.4.0-SNAPSHOT comparing git commits in
 
 ## Tagging process
 git tag --list
-git tag 0.5.0
+git tag 0.7.0
 git push --tags
 ```
 ## Undo Tags if something goes wrong
