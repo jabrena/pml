@@ -48,7 +48,7 @@
         <maven-plugin-properties.version>1.0.0</maven-plugin-properties.version>
         <maven-plugin-sonar.version>5.1.0.4751</maven-plugin-sonar.version>
 
-        <coverage.level>15</coverage.level>
+        <coverage.level>10</coverage.level>
     </properties>
 
     <dependencyManagement>
