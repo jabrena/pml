@@ -28,7 +28,7 @@ Can you update the current changelog for 0.5.0 comparing git commits in relation
 # Prompt to provide a release changelog
 Can you update the current changelog for 0.4.0-SNAPSHOT comparing git commits in relation to 0.3.0 tag. Use  @https://keepachangelog.com/en/1.1.0/  rules
 
-./mvnw versions:set -DnewVersion=0.5.0
+./mvnw versions:set -DnewVersion=0.6.0
 ./mvnw versions:commit
 ## Note: Refactor a bit more to include all pom.xml
 ./mvnw clean verify

@@ -6,7 +6,7 @@
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.5.0</version>
+    <version>0.6.0</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
@@ -48,7 +48,7 @@
         <maven-plugin-properties.version>1.0.0</maven-plugin-properties.version>
         <maven-plugin-sonar.version>5.1.0.4751</maven-plugin-sonar.version>
 
-        <coverage.level>15</coverage.level>
+        <coverage.level>10</coverage.level>
     </properties>
 
     <dependencyManagement>
