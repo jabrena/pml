@@ -37,7 +37,7 @@
         <nullaway.version>0.12.14</nullaway.version>
         <maven-plugin-resources.version>3.4.0</maven-plugin-resources.version>
         <maven-plugin-jaxb2.version>4.1.0</maven-plugin-jaxb2.version>
-        <jaxb-xjc.version>4.0.6</jaxb-xjc.version>
+        <jaxb-xjc.version>4.0.7</jaxb-xjc.version>
         <maven-plugin-pmd.version>3.28.0</maven-plugin-pmd.version>
         <maven-plugin-checkstyle.version>3.6.0</maven-plugin-checkstyle.version>
         <maven-plugin-project-info-reports.version>3.9.0</maven-plugin-project-info-reports.version>
