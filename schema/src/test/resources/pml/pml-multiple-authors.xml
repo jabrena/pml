@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prompt>
+    <metadata>
+        <author>Juan Antonio</author>
+        <authors>
+            <author>Breña</author>
+            <author>Moral</author>
+        </authors>
+    </metadata>
+    <goal>
+        Validate multiple metadata authors.
+    </goal>
+</prompt>
