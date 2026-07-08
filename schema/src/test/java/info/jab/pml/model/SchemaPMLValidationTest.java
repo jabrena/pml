@@ -46,6 +46,7 @@ class SchemaPMLValidationTest {
             "/pml/pml-java25-installation-v3.xml",
             "/pml/pml-java25-installation-v4.xml",
             "/pml/pml-java25-installation-v5.xml",
+            "/pml/pml-multiple-authors.xml",
             "/pml/113-java-maven-documentation.xml"
         };
     }
