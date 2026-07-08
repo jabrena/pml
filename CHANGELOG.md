@@ -12,13 +12,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for multiple metadata authors in the PML schema with `authors/author`, while preserving the legacy `author` field for the 0.8.0 transition.
 - Schema validation coverage for metadata that includes both `author` and multiple `authors/author` entries.
 
-### Changed
-
-- Released Maven modules as version `0.8.0`.
-- Updated build and test dependencies: JUnit to `6.1.1`, Error Prone to `2.48.0`, JAXB XJC to `4.0.7`, and Sonar Maven Plugin to `5.7.0.6970`.
-- Updated Maven build plugins: Spotless to `3.8.0`, Maven Enforcer Plugin to `3.6.3`, Extra Enforcer Rules to `1.12.0`, Maven Resources Plugin to `3.5.0`, and Maven Shade Plugin to `3.6.2`.
-- Updated GitHub Actions checkout from `v6` to `v7`.
-
 ## [0.7.0] - 2025-03-18
 
 ### Added
