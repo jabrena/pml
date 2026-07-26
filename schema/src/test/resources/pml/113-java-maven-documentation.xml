@@ -2,7 +2,9 @@
 <prompt xmlns:xi="http://www.w3.org/2001/XInclude">
 
     <metadata>
-        <author>Juan Antonio Breña Moral</author>
+        <authors>
+            <author>Juan Antonio Breña Moral</author>
+        </authors>
         <version>0.12.0-SNAPSHOT</version>
         <title>Create README-DEV.md with information about how to use the Maven project</title>
     </metadata>

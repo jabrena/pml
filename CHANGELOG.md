@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-07-26
+
+### Removed
+
+- Deprecated singular `author` element from the `metadata` content model in the PML schema (#137); use `authors/author` instead. The global `author` element declaration is retained because `authors` still references it.
+- `triggers` reference from the `prompt` content model in the PML schema (#137), along with the now-unreferenced `triggers`, `trigger-list`, and `trigger` element declarations; `triggers` conceptually belongs to a skills-only shape rather than this repository's shared system-prompt schema.
+
 ## [0.8.0] - 2026-07-08
 
 ### Added

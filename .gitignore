@@ -9,4 +9,6 @@ effective-pom.xml
 *.log
 .classpath
 
-CURSOR-RULES-JAVA.md
+.agents
+.claude
+skills-lock.json
