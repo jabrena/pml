@@ -22,8 +22,3 @@
 - [x] 4.1 Run a repository-wide search for the literal string `0.8.0` outside `CHANGELOG.md` and archived/historical `docs/schemas/0.8.0/` and `docs/schemas/0.7.0/`-and-earlier content, to confirm no other reference to the old version was missed.
 - [x] 4.2 Run `./mvnw clean verify` (or the project's documented full build command) at the repository root and confirm it passes.
 - [x] 4.3 Confirm `docs/schemas/0.8.0/pml.xsd` and `docs/schemas/0.8.0/pml-workflow.xsd` are byte-for-byte unchanged (0.8.0 remains a valid, stable, previously published version).
-
-## 5. Downstream coordination (tracking only — not implemented by this change)
-
-- [ ] 5.1 Notify/track that the `plinth` repository needs its own migration (schema-version references, `RemoteSchemaValidationTest.REMOTE_XSD`, `skill-references/*.xml`, `skill-indexes/*.xml`) once 0.9.0 is published here; this is out of scope for this change and requires a separate OpenSpec change in `plinth`.
-- [ ] 5.2 Ensure the `plinth`-side change explicitly resolves open question U2 (whether `plinth`'s `skills.xsd` mirror keeps or drops `<triggers>`) before `plinth` adopts schema 0.9.0 — do not resolve it here.
