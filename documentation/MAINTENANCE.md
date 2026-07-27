@@ -14,7 +14,7 @@ Can you update the current changelog for 0.9.0 comparing git commits in relation
 - [ ] Last review in docs (Manual)
 - [ ] Remove SNAPSHOT from pom.xml
 - [ ] Update website /docs/index.html
-- [ ] Review git changes for hidden issues (Manual) https://github.com/jabrena/pml/compare/0.8.0...0.8.0 https://github.com/jabrena/pml/compare/0.8.0...feature/release-090
+- [ ] Review git changes for hidden issues (Manual) https://github.com/jabrena/pml/compare/0.8.0...0.9.0 https://github.com/jabrena/pml/compare/0.8.0...feature/release-090
 - [ ] Tag repository
 - [ ] Release Snapshot/Release
 - [ ] Update Jbang-catalog with new cli pml-to-md, https://github.com/jabrena/jbang-catalog
