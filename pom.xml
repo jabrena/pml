@@ -34,7 +34,7 @@
         <extra-enforcer-rules.version>1.12.0</extra-enforcer-rules.version>
         <jspecify.version>1.0.0</jspecify.version>
         <error-prone.version>2.48.0</error-prone.version>
-        <nullaway.version>0.12.14</nullaway.version>
+        <nullaway.version>0.13.8</nullaway.version>
         <maven-plugin-resources.version>3.5.0</maven-plugin-resources.version>
         <maven-plugin-jaxb2.version>4.1.0</maven-plugin-jaxb2.version>
         <jaxb-xjc.version>4.0.7</jaxb-xjc.version>
