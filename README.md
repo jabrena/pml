@@ -23,7 +23,7 @@ Java software engineers use XML daily because `Maven` is based on XML and it has
 
     <groupId>info.jab.pml</groupId>
     <artifactId>prompt-markup-language</artifactId>
-    <version>0.7.0</version>
+    <version>0.9.0</version>
     <packaging>pom</packaging>
 
     <name>prompt-markup-language</name>
@@ -79,7 +79,6 @@ A [`PML Schema`](./schema/src/main/resources/pml.xsd) defines the following part
             <xs:element ref="context" minOccurs="0"/>
             <xs:element ref="goal"/>
             <xs:element ref="constraints" minOccurs="0"/>
-            <xs:element ref="triggers" minOccurs="0" />
             <xs:element ref="steps" minOccurs="0" />
             <xs:element ref="examples" minOccurs="0"/>
             <xs:element ref="output-format" minOccurs="0"/>
@@ -99,7 +98,7 @@ Lets continue with the next example implementing the same idea in Java.
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.7.0/pml.xsd">
+        xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml.xsd">
     <title>Develop a HelloWorld Java Class program</title>
 
     <role>You are a Senior software engineer with extensive experience in Java software development</role>
@@ -146,7 +145,7 @@ In your prompts, you could have to include scripts like in this prompt:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <prompt xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.7.0/pml.xsd">
+    xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml.xsd">
     <title>Install Java 25 in Cursor Cloud Agent</title>
 
     <role>System Administrator with expertise in Java development environments and package management for Linux systems</role>
@@ -225,7 +224,7 @@ Prompts can be defined in 3 different ways:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <pml-workflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.7.0/pml-workflow.xsd">
+              xsi:noNamespaceSchemaLocation="https://jabrena.github.io/pml/schemas/0.9.0/pml-workflow.xsd">
     <parallel src="prompt-toc.xml" bindResultType="List_Integer">
         <sequence model="default" repository="https://github.com/jabrena/wjax25-demos">
             <prompt src="prompt2.xml" bindResultExp="$get()"/>
@@ -240,10 +239,10 @@ The repository provides a CLI tool to convert PML files into Markdown in an easy
 
 ```bash
 ./mvnw clean package
-java -jar cli/target/pml-to-md-0.7.0.jar --help
-java -jar cli/target/pml-to-md-0.7.0.jar validate cli/src/test/resources/pml/pml-hello-world.xml
-java -jar cli/target/pml-to-md-0.7.0.jar convert cli/src/test/resources/pml/pml-hello-world-template.xml --template MESSAGE "Hello World"
-java -jar cli/target/pml-to-md-0.7.0.jar convert cli/src/test/resources/pml/pml-hello-world-template-multiple.xml --template MESSAGE "Hello World" CHANNEL "Console"
+java -jar cli/target/pml-to-md-0.9.0.jar --help
+java -jar cli/target/pml-to-md-0.9.0.jar validate cli/src/test/resources/pml/pml-hello-world.xml
+java -jar cli/target/pml-to-md-0.9.0.jar convert cli/src/test/resources/pml/pml-hello-world-template.xml --template MESSAGE "Hello World"
+java -jar cli/target/pml-to-md-0.9.0.jar convert cli/src/test/resources/pml/pml-hello-world-template-multiple.xml --template MESSAGE "Hello World" CHANNEL "Console"
 ```
 
 ## Java Bindings
@@ -271,12 +270,8 @@ Prompt prompt = PromptBuilder.create()
 
 ## Cursor rules ecosystem
 
-- https://github.com/jabrena/101-cursor
 - https://github.com/jabrena/pml
-- https://github.com/jabrena/churrera-cli
 - https://github.com/jabrena/plinth
-- https://github.com/jabrena/plantuml-to-png-cli
-- https://github.com/jabrena/setup-cli
 - https://github.com/jabrena/jbang-catalog
 
 Developed by humans with support from [Cursor](https://www.cursor.com/) and [Codex](https://openai.com/codex/), with ❤️ from [Madrid](https://www.google.com/maps/place/Community+of+Madrid,+Madrid/@40.4983324,-6.3162283,8z/data=!3m1!4b1!4m6!3m5!1s0xd41817a40e033b9:0x10340f3be4bc880!8m2!3d40.4167088!4d-3.5812692!16zL20vMGo0eGc?entry=ttu&g_ep=EgoyMDI1MDgxOC4wIKXMDSoASAFQAw%3D%3D)
